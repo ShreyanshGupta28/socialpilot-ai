@@ -1,0 +1,54 @@
+datasource db {
+  provider  = "sqlite"
+  url       = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                String         @id @default(cuid())
+  email             String         @unique
+  name              String?
+  hashedPassword    String?
+  googleId          String?        @unique
+  plan              String         @default("FREE")
+  emailVerified     Boolean        @default(false)
+  verificationToken String?
+  resetToken        String?
+  resetTokenExpiry  DateTime?
+  onboardingDone    Boolean        @default(false)
+  dailyCount        Int            @default(0)
+  dailyReset        DateTime       @default(now())
+  createdAt         DateTime       @default(now())
+  messages          Message[]
+  subscriptions     Subscription[]
+}
+
+model Message {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tool        String
+  channel     String   @default("AUTO")
+  inputText   String
+  outputJson  String
+  isSaved     Boolean  @default(false)
+  isFavorite  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model Subscription {
+  id                   String   @id @default(cuid())
+  userId               String
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeCustomerId     String
+  stripeSubscriptionId String   @unique
+  stripePriceId        String
+  status               String
+  currentPeriodEnd     DateTime
+  cancelAtPeriodEnd    Boolean  @default(false)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
