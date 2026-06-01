@@ -11,6 +11,7 @@ interface AnalysisData {
   leadScore: number;
   urgency: "high" | "medium" | "low" | string;
   summary: string;
+  leadType?: string;
 }
 
 interface AnalysisBarProps {
@@ -32,6 +33,17 @@ export function AnalysisBar({ analysis }: AnalysisBarProps) {
     return <Badge variant="success">Low</Badge>;
   };
 
+  const getLeadTypeBadge = (leadType?: string) => {
+    if (!leadType) return null;
+    const t = leadType.toUpperCase();
+    if (t === "BRAND_DEAL") return <Badge variant="success">🤝 Brand Deal</Badge>;
+    if (t === "SPONSORSHIP") return <Badge variant="success">💰 Sponsorship</Badge>;
+    if (t === "CUSTOMER_INQUIRY") return <Badge variant="secondary">🛠️ Support Inquiry</Badge>;
+    if (t === "FAN_MESSAGE") return <Badge variant="warning">❤️ Fan Message</Badge>;
+    if (t === "HIGH_VALUE_LEAD") return <Badge variant="error">💎 High Value Lead</Badge>;
+    return <Badge variant="secondary">{leadType}</Badge>;
+  };
+
   const getScoreColor = (score: number) => {
     if (score >= 80) return "text-emerald-400";
     if (score >= 50) return "text-amber-400";
@@ -42,11 +54,14 @@ export function AnalysisBar({ analysis }: AnalysisBarProps) {
     <Card className="bg-gradient-to-br from-[#0F172E] to-[#0A0F1E] border-white/5 shadow-lg">
       <CardContent className="p-6 space-y-4">
         {/* Main Title Row */}
-        <div className="flex items-center gap-2 border-b border-white/5 pb-3">
-          <ShieldCheck className="h-5 w-5 text-violet-400" />
-          <h3 className="font-syne font-bold text-base text-white tracking-wide">
-            AI Inbound Message Insights
-          </h3>
+        <div className="flex items-center justify-between border-b border-white/5 pb-3">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="h-5 w-5 text-violet-400" />
+            <h3 className="font-syne font-bold text-base text-white tracking-wide">
+              AI Inbound Message Insights
+            </h3>
+          </div>
+          {getLeadTypeBadge(analysis.leadType)}
         </div>
 
         {/* Multi-grid stats */}

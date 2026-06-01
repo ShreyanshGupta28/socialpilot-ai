@@ -14,7 +14,8 @@ import {
   Settings,
   LogOut,
   Sparkles,
-  BarChart3
+  BarChart3,
+  Users
 } from "lucide-react";
 
 interface SidebarProps {
@@ -33,6 +34,7 @@ export function Sidebar({ user }: SidebarProps) {
     { name: "Reply Generator", href: "/reply", icon: MessageSquareReply },
     { name: "Message Improver", href: "/improve", icon: PenTool },
     { name: "Saved Library", href: "/saved", icon: Bookmark },
+    { name: "Brand CRM", href: "/crm", icon: Users },
     { name: "Analytics", href: "/analytics", icon: BarChart3 },
     { name: "Billing", href: "/billing", icon: CreditCard },
     { name: "Settings", href: "/settings", icon: Settings },

@@ -4,8 +4,8 @@
 
 @layer base {
   body {
-    background-color: #0A0F1E;
-    color: #F0F4FF;
+    background-color: #F8FAFC !important;
+    color: #0F172A !important;
     font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
@@ -13,27 +13,28 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-syne), sans-serif;
+    color: #0F172A !important;
   }
 }
 
-/* Scrollbar customization */
+/* Softer scrollbar for clean white look */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0A0F1E;
+  background: #F8FAFC;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: #CBD5E1;
   border-radius: 9999px;
-  border: 2px solid #0A0F1E;
+  border: 1px solid #F8FAFC;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: #94A3B8;
 }
 
 /* Animations */
@@ -78,158 +79,174 @@
   animation: fade-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Premium utility classes */
-.glassmorphism {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* Master Premium Light Theme CSS Overrides */
+
+/* 1. Sidebar & Header Global Overrides */
+aside, header {
+  background-color: #FFFFFF !important;
+  background-image: none !important;
+  color: #0F172A !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03) !important;
 }
 
-.radial-bg-glow {
-  background: radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.15), transparent 60%);
-}
-
-/* Light Mode Overrides */
-.light body {
-  background-color: #F8FAFC !important;
+aside .text-white, header .text-white {
   color: #0F172A !important;
 }
 
-.light .text-white {
-  color: #0F172A !important;
-}
-
-.light .text-\[\#F0F4FF\] {
-  color: #1E293B !important;
-}
-
-.light .text-muted {
-  color: #64748B !important;
-}
-
-.light .bg-white\/5 {
-  background-color: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05) !important;
-}
-
-.light .bg-white\/\[0\.02\] {
-  background-color: #F1F5F9 !important;
-  border-color: #E2E8F0 !important;
-}
-
-.light .bg-white\/\[0\.03\] {
-  background-color: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05) !important;
-}
-
-.light .border-white\/5 {
-  border-color: #E2E8F0 !important;
-}
-
-.light .border-white\/10 {
-  border-color: #CBD5E1 !important;
-}
-
-.light .border-dashed {
-  border-style: dashed !important;
-}
-
-.light .bg-white\/\[0\.01\] {
-  background-color: #F8FAFC !important;
-  border-color: #E2E8F0 !important;
-}
-
-.light .bg-gradient-to-br.from-\[\#0E1528\].to-\[\#0A0F1E\] {
-  background-image: linear-gradient(to bottom right, #FFFFFF, #F1F5F9) !important;
-  border-color: #E2E8F0 !important;
-}
-
-.light .bg-\[\#0E1428\] {
-  background-color: #FFFFFF !important;
-  border-color: #CBD5E1 !important;
-}
-
-.light .bg-\[\#0A0F1E\]\/20 {
-  background-color: rgba(255, 255, 255, 0.8) !important;
-  border-color: #E2E8F0 !important;
-}
-
-.light nav {
-  border-bottom-color: #E2E8F0 !important;
-}
-
-.light .text-\[\#94A3B8\] {
-  color: #475569 !important;
-}
-
-.light .bg-white\/\[0\.05\] {
-  background-color: rgba(255, 255, 255, 0.8) !important;
-  border-color: #CBD5E1 !important;
-}
-
-.light .radial-bg-glow {
-  background: radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.05), transparent 60%) !important;
-}
-
-.light input, .light textarea, .light select {
-  background-color: #FFFFFF !important;
-  color: #0F172A !important;
-  border-color: #CBD5E1 !important;
-}
-
-.light input:focus, .light textarea:focus, .light select:focus {
-  border-color: #7C3AED !important;
-  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1) !important;
-}
-
-.light .dialog-overlay {
-  background-color: rgba(15, 23, 42, 0.5) !important;
-}
-
-.light .dialog-content {
-  background-color: #FFFFFF !important;
-  color: #0F172A !important;
-  border-color: #E2E8F0 !important;
-}
-
-.light .badge {
-  background-color: #F1F5F9 !important;
-  color: #475569 !important;
-  border-color: #E2E8F0 !important;
-}
-
-.light .plan-badge-free {
-  background-color: #F1F5F9 !important;
-  color: #475569 !important;
-}
-
-.light .plan-badge-premium {
-  background-color: #7C3AED !important;
+/* 2. Core Primary and Active Navigation States */
+.bg-violet-600 {
+  background-color: #6366F1 !important; /* Premium Indigo Primary */
   color: #FFFFFF !important;
 }
 
-.light .bg-violet-600\/20 {
-  background-color: rgba(124, 58, 237, 0.08) !important;
+.text-violet-500, .text-violet-400 {
+  color: #6366F1 !important;
 }
 
-.light .border-violet-500\/20 {
-  border-color: rgba(124, 58, 237, 0.2) !important;
+.hover\:bg-white\/5:hover {
+  background-color: #F1F5F9 !important;
 }
 
-.light .bg-[#0E1528] {
+/* 3. Cards & Panels (Stripe / Notion / Linear inspired) */
+.bg-\[\#0E1528\], 
+.bg-\[\#0E1428\], 
+.bg-white\/5, 
+.bg-white\/\[0\.02\], 
+.bg-white\/\[0\.03\],
+.bg-white\/\[0\.05\] {
   background-color: #FFFFFF !important;
+  background-image: none !important;
   border-color: #E2E8F0 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05) !important;
 }
 
-.light .bg-[#0A0F1E] {
+.bg-white\/\[0\.01\] {
   background-color: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
 }
 
-.light .border-white\/5 {
+/* Glow Backgrounds */
+.radial-bg-glow {
+  background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05), transparent 60%) !important;
+}
+
+/* 4. Soft High-Contrast Borders */
+.border-white\/10, .border-white\/5 {
   border-color: #E2E8F0 !important;
+}
+
+/* 5. Typography Color Mapping */
+.text-\[\#F0F4FF\] {
+  color: #0F172A !important;
+}
+
+.text-\[\#94A3B8\] {
+  color: #64748B !important; /* Clean slate-500 Muted */
+}
+
+.text-muted {
+  color: #64748B !important;
+}
+
+.text-white {
+  color: #0F172A !important;
+}
+
+/* Protect white text on active solid Indigo buttons */
+button.bg-violet-600, 
+button.bg-violet-600 *,
+.bg-violet-600 * {
+  color: #FFFFFF !important;
+}
+
+/* 6. Inputs & Forms (Premium Linear look) */
+input, textarea, select {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1px solid #CBD5E1 !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02) !important;
+  border-radius: 8px !important;
+  transition: all 0.15s ease-in-out !important;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: #6366F1 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.02) !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* 7. Dialog & Popups (Stripe overlays) */
+.dialog-overlay {
+  background-color: rgba(15, 23, 42, 0.4) !important;
+}
+
+.dialog-content {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 8. Accent Indicators & Badges */
+.badge, .plan-badge-free {
+  background-color: #F1F5F9 !important;
+  color: #475569 !important;
+  border: 1px solid #E2E8F0 !important;
+}
+
+.plan-badge-premium {
+  background-color: #6366F1 !important;
+  color: #FFFFFF !important;
+}
+
+/* 9. Analytics Metric Card Highlights */
+.bg-violet-500\/15 {
+  background-color: rgba(99, 102, 241, 0.08) !important;
+  border-color: rgba(99, 102, 241, 0.12) !important;
+}
+.text-violet-400 {
+  color: #6366F1 !important;
+}
+
+.bg-emerald-500\/15 {
+  background-color: rgba(16, 185, 129, 0.08) !important;
+  border-color: rgba(16, 185, 129, 0.12) !important;
+}
+.text-emerald-400 {
+  color: #10B981 !important;
+}
+
+.bg-indigo-500\/15 {
+  background-color: rgba(139, 92, 246, 0.08) !important;
+  border-color: rgba(139, 92, 246, 0.12) !important;
+}
+.text-\[\#5C6BC0\] {
+  color: #8B5CF6 !important;
+}
+
+.bg-amber-500\/15 {
+  background-color: rgba(245, 158, 11, 0.08) !important;
+  border-color: rgba(245, 158, 11, 0.12) !important;
+}
+.text-amber-400 {
+  color: #F59E0B !important;
+}
+
+/* Weekly Trend SVGs color adjustments */
+svg line {
+  stroke: #F1F5F9 !important;
+}
+
+svg linearGradient stop[stop-color="#7C3AED"] {
+  stop-color: #6366F1 !important;
+}
+svg linearGradient stop[stop-color="#5C6BC0"] {
+  stop-color: #8B5CF6 !important;
 }
 
 /* Print Overrides for PDF Export */
@@ -244,9 +261,8 @@
   }
   
   .print-card {
-    border: 1px solid #000000 !important;
+    border: 1px solid #E2E8F0 !important;
     box-shadow: none !important;
     break-inside: avoid !important;
   }
 }
-

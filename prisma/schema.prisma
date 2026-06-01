@@ -23,8 +23,15 @@ model User {
   dailyCount        Int            @default(0)
   dailyReset        DateTime       @default(now())
   createdAt         DateTime       @default(now())
+  
+  // Creator Mode additions
+  niche             String         @default("General Creator")
+  brandVoice        String         @default("Friendly")
+  
   messages          Message[]
   subscriptions     Subscription[]
+  contacts          Contact[]
+  templates         Template[]
 }
 
 model Message {
@@ -52,4 +59,28 @@ model Subscription {
   cancelAtPeriodEnd    Boolean  @default(false)
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
+}
+
+model Contact {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name            String
+  handle          String?
+  email           String?
+  status          String   @default("NEW") // NEW, INTERESTED, NEGOTIATING, CLOSED
+  lastInteraction DateTime @default(now())
+  notes           String?
+  createdAt       DateTime @default(now())
+}
+
+model Template {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  category  String   // Brand Collaboration, Sponsorship, Pricing Inquiry, Fan Reply, Customer Support
+  content   String
+  uses      Int      @default(0)
+  createdAt DateTime @default(now())
 }

@@ -15,6 +15,8 @@ export default function SettingsPage() {
   // Profile Form States
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const [niche, setNiche] = React.useState("General Creator");
+  const [brandVoice, setBrandVoice] = React.useState("Friendly");
   const [profileLoading, setProfileLoading] = React.useState(false);
 
   // Password Form States
@@ -28,12 +30,23 @@ export default function SettingsPage() {
   const [deleteLoading, setDeleteLoading] = React.useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = React.useState("");
 
-  // Sync state with NextAuth session on mount
+  // Fetch full details on mount
   React.useEffect(() => {
-    if (session?.user) {
-      setName(session.user.name || "");
-      setEmail(session.user.email || "");
+    async function loadProfile() {
+      try {
+        const res = await fetch("/api/user/profile");
+        const data = await res.json();
+        if (res.ok && data.user) {
+          setName(data.user.name || "");
+          setEmail(data.user.email || "");
+          setNiche(data.user.niche || "General Creator");
+          setBrandVoice(data.user.brandVoice || "Friendly");
+        }
+      } catch (e) {
+        console.error("Failed to load user details", e);
+      }
     }
+    loadProfile();
   }, [session]);
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
@@ -49,7 +62,7 @@ export default function SettingsPage() {
       const response = await fetch("/api/user/profile", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email }),
+        body: JSON.stringify({ name, email, niche, brandVoice }),
       });
 
       const data = await response.json();
@@ -61,7 +74,7 @@ export default function SettingsPage() {
         email: data.user.email,
       });
 
-      toast.success("Profile updated successfully!");
+      toast.success("Profile and Creator Mode updated successfully!");
     } catch (err: any) {
       toast.error(err.message || "An error occurred while updating profile.");
     } finally {
@@ -189,6 +202,44 @@ export default function SettingsPage() {
                   disabled={profileLoading}
                   className="focus:border-violet-500/50"
                 />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-muted tracking-wider uppercase">
+                  Creator Niche
+                </label>
+                <select
+                  value={niche}
+                  onChange={(e) => setNiche(e.target.value)}
+                  disabled={profileLoading}
+                  className="w-full text-sm rounded-lg p-2.5 bg-white border border-slate-300 focus:border-indigo-500 focus:ring focus:ring-indigo-100 font-sans"
+                >
+                  <option value="Fashion Influencer">🎨 Fashion Influencer</option>
+                  <option value="Fitness Influencer">💪 Fitness Influencer</option>
+                  <option value="Tech Reviewer">💻 Tech Reviewer</option>
+                  <option value="Business Coach">📈 Business Coach</option>
+                  <option value="Travel Creator">✈️ Travel Creator</option>
+                  <option value="General Creator">✨ General Creator</option>
+                </select>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-muted tracking-wider uppercase">
+                  Brand Voice & Tone
+                </label>
+                <select
+                  value={brandVoice}
+                  onChange={(e) => setBrandVoice(e.target.value)}
+                  disabled={profileLoading}
+                  className="w-full text-sm rounded-lg p-2.5 bg-white border border-slate-300 focus:border-indigo-500 focus:ring focus:ring-indigo-100 font-sans"
+                >
+                  <option value="Professional">🏢 Professional / Structured</option>
+                  <option value="Friendly">😊 Friendly / Warm</option>
+                  <option value="Empathetic">❤️ Empathetic / Supportive</option>
+                  <option value="Bold">🔥 Bold / Energetic</option>
+                  <option value="Witty">💡 Witty / Playful</option>
+                  <option value="Direct">⚡ Direct / Concise</option>
+                </select>
               </div>
 
               <div className="pt-2">

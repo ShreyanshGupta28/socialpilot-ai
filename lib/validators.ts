@@ -44,6 +44,8 @@ export type ImproveMessageInput = z.infer<typeof improveMessageSchema>;
 export const updateProfileSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
+  niche: z.string().optional(),
+  brandVoice: z.string().optional(),
 });
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
 

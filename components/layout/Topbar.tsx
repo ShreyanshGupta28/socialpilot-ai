@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, Sparkles, User } from "lucide-react";
+import { Menu, Sparkles, User, Users } from "lucide-react";
 import { Avatar } from "../ui/Avatar";
 import { Sheet } from "../ui/Sheet";
 import { PlanBadge } from "../shared/PlanBadge";
@@ -42,6 +42,8 @@ export function Topbar({ user }: TopbarProps) {
         return "Message Improver";
       case "/saved":
         return "Saved Replies";
+      case "/crm":
+        return "Brand CRM";
       case "/analytics":
         return "Analytics Dashboard";
       case "/billing":
@@ -58,6 +60,7 @@ export function Topbar({ user }: TopbarProps) {
     { name: "Reply Generator", href: "/reply", icon: MessageSquareReply },
     { name: "Message Improver", href: "/improve", icon: PenTool },
     { name: "Saved Library", href: "/saved", icon: Bookmark },
+    { name: "Brand CRM", href: "/crm", icon: Users },
     { name: "Analytics", href: "/analytics", icon: BarChart3 },
     { name: "Billing", href: "/billing", icon: CreditCard },
     { name: "Settings", href: "/settings", icon: Settings },

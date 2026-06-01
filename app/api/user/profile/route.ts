@@ -60,7 +60,7 @@ export async function PUT(request: Request) {
       );
     }
 
-    const { name, email } = result.data;
+    const { name, email, niche, brandVoice } = result.data;
     const lowerEmail = email.toLowerCase();
 
     // Check if email already in use by another user
@@ -77,6 +77,8 @@ export async function PUT(request: Request) {
       data: {
         name,
         email: lowerEmail,
+        niche: niche || "General Creator",
+        brandVoice: brandVoice || "Friendly",
       },
     });
 
@@ -87,6 +89,8 @@ export async function PUT(request: Request) {
         name: updatedUser.name,
         email: updatedUser.email,
         plan: updatedUser.plan,
+        niche: updatedUser.niche,
+        brandVoice: updatedUser.brandVoice,
       },
     });
   } catch (error) {
@@ -119,5 +123,31 @@ export async function DELETE(request: Request) {
       { error: "An error occurred while deleting your account." },
       { status: 500 }
     );
+  }
+}
+
+export async function GET(request: Request) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const userId = session.user.id;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        niche: true,
+        brandVoice: true,
+        plan: true,
+      },
+    });
+
+    return NextResponse.json({ success: true, user });
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to fetch user details" }, { status: 500 });
   }
 }

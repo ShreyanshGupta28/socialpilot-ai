@@ -174,6 +174,48 @@ export default function ReplyGeneratorPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Input Settings panel (7 cols) */}
         <div className="lg:col-span-7 space-y-6">
+          {/* Quick Reply Templates */}
+          <div className="space-y-2">
+            <span className="text-sm font-semibold font-syne tracking-wide text-white block">
+              Quick Reply Templates
+            </span>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {[
+                {
+                  name: "🤝 Brand Collab",
+                  text: "Hi! I love your brand and would love to discuss a potential collaboration. I've attached my media kit with engagement stats. Let me know if you are open to discussing a partnership!"
+                },
+                {
+                  name: "💰 Sponsorship",
+                  text: "Hello! We are looking to sponsor creator content for our upcoming campaign. Are you open to brand integration sponsorships, and what are your rates for a dedicated post?"
+                },
+                {
+                  name: "📊 Pricing Inquiry",
+                  text: "Hi there! I'm interested in booking your services. Could you please share your rate card and price packages for sponsored campaigns?"
+                },
+                {
+                  name: "❤️ Fan Reply",
+                  text: "Hey! Just wanted to say I absolutely love your content, you inspire me so much! Keep up the amazing work!"
+                },
+                {
+                  name: "🛠️ Customer Support",
+                  text: "Hi! I placed an order but haven't received a tracking number yet. Can you please check my order status and help me out?"
+                }
+              ].map((tpl) => (
+                <button
+                  key={tpl.name}
+                  onClick={() => {
+                    setInputText(tpl.text);
+                    toast.info(`Loaded ${tpl.name} template!`);
+                  }}
+                  className="text-xs font-semibold py-2 px-3 rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors text-left truncate cursor-pointer font-sans"
+                >
+                  {tpl.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Channel selector tabs */}
           <div className="space-y-2">
             <span className="text-sm font-semibold font-syne tracking-wide text-white block">

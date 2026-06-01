@@ -40,9 +40,20 @@ export async function POST(request: Request) {
       throw usageError;
     }
 
+    // Fetch user niche and brand voice settings
+    const dbUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { niche: true, brandVoice: true },
+    });
+    const niche = dbUser?.niche || "General Creator";
+    const brandVoice = dbUser?.brandVoice || "Friendly";
+
     // 4. OpenAI ChatGPT query
     const systemPrompt = `
-      You are an expert communication assistant called SocialPilot AI.
+      You are an expert communication assistant called SocialPilot AI, built specifically to help content creators and influencers.
+      You are writing on behalf of a creator operating in the **${niche}** niche with a **${brandVoice}** brand voice. 
+      Your generated replies MUST automatically adapt to match this creator niche and reflect the brand voice tone guidelines.
+      
       Analyze the incoming user message/comment and generate 6 distinct reply options matching specified tones.
       You MUST respond with a valid, clean JSON object ONLY. Do not write markdown, code blocks, or explanations outside the JSON.
       
@@ -59,6 +70,7 @@ export async function POST(request: Request) {
           "intent": "Short summary of user's core intent (e.g. Pricing inquiry, Support request, General greeting)",
           "sentiment": "positive" | "neutral" | "negative",
           "leadScore": <number between 0 and 100 assessing how likely they are to purchase/engage>,
+          "leadType": "BRAND_DEAL" | "SPONSORSHIP" | "CUSTOMER_INQUIRY" | "FAN_MESSAGE" | "HIGH_VALUE_LEAD",
           "urgency": "high" | "medium" | "low",
           "summary": "Brief 1-sentence recap of what the inbound message is about"
         },
