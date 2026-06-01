@@ -6,10 +6,6 @@ import bcryptjs from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -31,10 +27,6 @@ export const authOptions: NextAuthOptions = {
 
         const isValid = await bcryptjs.compare(credentials.password, user.hashedPassword);
         if (!isValid) {
-          return null;
-        }
-
-        if (!user.emailVerified) {
           return null;
         }
 

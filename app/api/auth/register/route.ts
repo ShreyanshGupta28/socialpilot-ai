@@ -80,13 +80,13 @@ export async function POST(request: Request) {
         name,
         hashedPassword,
         verificationToken,
-        emailVerified: false,
+        emailVerified: true,
         plan: "FREE",
       },
     });
 
     // Send verification email asynchronously so registration returns immediately
-    sendVerificationEmail(lowerEmail, verificationToken);
+    // sendVerificationEmail(lowerEmail, verificationToken);
 
     return NextResponse.json({ success: true });
   } catch (error) {
