@@ -24,14 +24,14 @@ export default function TermsPage() {
             You must be at least 18 years of age to register for an account. You are solely responsible for maintaining the confidentiality of your login credentials and for all actions taken under your account.
           </p>
 
-          <h2 className="text-lg font-bold font-syne text-white pt-2">2. Usage Limitations</h2>
+          <h2 className="text-lg font-bold font-syne text-white pt-2">2. Content Guidelines</h2>
           <p>
-            Free tier members are limited to 30 generations a day. Bypassing these credit limits via automated scripts or multiple accounts is strictly prohibited. Premium users enjoy unlimited queries, subject to reasonable fair use policies to avoid server abuse.
+            We encourage creative and professional communication. Using our tools to generate or distribute spam, harassment, or malicious content is strictly prohibited, and we reserve the right to suspend accounts violating these standards.
           </p>
 
-          <h2 className="text-lg font-bold font-syne text-white pt-2">3. Subscription Billing & Cancellations</h2>
+          <h2 className="text-lg font-bold font-syne text-white pt-2">3. Service Availability</h2>
           <p>
-            Premium upgrades are charged as recurring monthly subscriptions. Payments are handled via Stripe. You can cancel your subscription inside settings at any time, keeping premium features active until your current period end date.
+            SocialPilot AI provides unlimited AI generation utilities and visual CRM systems at no cost to empower creators. We strive to maintain continuous service availability but do not guarantee uninterrupted access and reserve the right to modify features.
           </p>
 
           <h2 className="text-lg font-bold font-syne text-white pt-2">4. Disclaimers of Liability</h2>

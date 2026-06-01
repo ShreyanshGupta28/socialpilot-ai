@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { generateReplySchema } from "@/lib/validators";
-import { openai, checkAndIncrementUsage, UsageLimitError } from "@/lib/openai";
+import { openai, checkAndIncrementUsage } from "@/lib/openai";
 
 export async function POST(request: Request) {
   // 1. Session verification
@@ -27,18 +27,8 @@ export async function POST(request: Request) {
 
     const { channel, inputText, selectedTones, context } = result.data;
 
-    // 3. Usage check and increment
-    try {
-      await checkAndIncrementUsage(userId);
-    } catch (usageError) {
-      if (usageError instanceof UsageLimitError) {
-        return NextResponse.json(
-          { error: "LIMIT_EXCEEDED", upgradeUrl: "/billing" },
-          { status: 402 }
-        );
-      }
-      throw usageError;
-    }
+    // 3. Increment usage count for analytics/daily stats
+    await checkAndIncrementUsage(userId);
 
     // Fetch user niche and brand voice settings
     const dbUser = await prisma.user.findUnique({

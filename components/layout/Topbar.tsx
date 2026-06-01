@@ -14,7 +14,7 @@ import {
   MessageSquareReply,
   PenTool,
   Bookmark,
-  CreditCard,
+  BookOpen,
   Settings,
   LogOut,
   BarChart3
@@ -35,7 +35,7 @@ export function Topbar({ user }: TopbarProps) {
   const getPageTitle = () => {
     switch (pathname) {
       case "/dashboard":
-        return "Dashboard";
+        return "Creator Studio";
       case "/reply":
         return "Reply Generator";
       case "/improve":
@@ -43,15 +43,15 @@ export function Topbar({ user }: TopbarProps) {
       case "/saved":
         return "Saved Replies";
       case "/crm":
-        return "Brand CRM";
+        return "Brand Opportunities";
       case "/analytics":
-        return "Analytics Dashboard";
-      case "/billing":
-        return "Billing";
+        return "Creator Insights";
+      case "/templates":
+        return "Template Playbook";
       case "/settings":
         return "Settings";
       default:
-        return "SocialPilot AI";
+        return "Creator Studio";
     }
   };
 
@@ -60,24 +60,24 @@ export function Topbar({ user }: TopbarProps) {
     { name: "Reply Generator", href: "/reply", icon: MessageSquareReply },
     { name: "Message Improver", href: "/improve", icon: PenTool },
     { name: "Saved Library", href: "/saved", icon: Bookmark },
-    { name: "Brand CRM", href: "/crm", icon: Users },
+    { name: "Templates", href: "/templates", icon: BookOpen },
+    { name: "Brand Opportunities", href: "/crm", icon: Users },
     { name: "Analytics", href: "/analytics", icon: BarChart3 },
-    { name: "Billing", href: "/billing", icon: CreditCard },
     { name: "Settings", href: "/settings", icon: Settings },
   ];
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-10 flex h-16 items-center justify-between border-b border-white/10 bg-[#070B16]/90 backdrop-blur-md px-6 lg:left-64 text-[#F0F4FF]">
+      <header className="fixed top-0 left-0 right-0 z-10 flex h-16 items-center justify-between border-b border-[#F1F5F9] bg-[#FFFFFF]/90 backdrop-blur-md px-6 lg:left-64 text-[#334155]">
         {/* Mobile Left Toggle */}
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsMobileMenuOpen(true)}
-            className="lg:hidden rounded-lg p-1.5 hover:bg-white/5 text-[#94A3B8] hover:text-[#F0F4FF] transition-colors cursor-pointer"
+            className="lg:hidden rounded-lg p-1.5 hover:bg-slate-50 text-[#64748B] hover:text-[#334155] transition-colors cursor-pointer"
           >
             <Menu className="h-6 w-6" />
           </button>
-          <h1 className="text-lg lg:text-xl font-bold font-syne text-[#F0F4FF] tracking-wide">
+          <h1 className="text-lg lg:text-xl font-bold font-syne text-[#334155] tracking-wide">
             {getPageTitle()}
           </h1>
         </div>
@@ -87,7 +87,7 @@ export function Topbar({ user }: TopbarProps) {
           <ThemeToggle />
           <div className="hidden md:flex flex-col text-right">
             <span className="text-xs text-muted font-medium">Active Account</span>
-            <span className="text-sm font-semibold text-[#F0F4FF] truncate max-w-[120px]">
+            <span className="text-sm font-semibold text-[#334155] truncate max-w-[120px]">
               {user.name || user.email}
             </span>
           </div>
@@ -103,8 +103,8 @@ export function Topbar({ user }: TopbarProps) {
           <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-violet-600 shadow-md">
             <Sparkles className="h-4.5 w-4.5 text-white" />
           </div>
-          <span className="text-base font-bold font-syne tracking-wider text-white">
-            SocialPilot <span className="text-violet-500">AI</span>
+          <span className="text-base font-bold font-syne tracking-wider text-[#334155]">
+            Creator <span className="text-violet-500">Studio</span>
           </span>
         </div>
 
@@ -120,7 +120,7 @@ export function Topbar({ user }: TopbarProps) {
                 className={`flex items-center gap-3.5 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 cursor-pointer ${
                   isActive
                     ? "bg-violet-600 text-white shadow-md"
-                    : "text-[#94A3B8] hover:text-[#F0F4FF] hover:bg-white/5"
+                    : "text-[#64748B] hover:text-violet-600 hover:bg-[#F9A8D4]/8"
                 }`}
               >
                 <Icon className="h-5 w-5 flex-shrink-0" />

@@ -58,26 +58,4 @@ export async function sendPasswordResetEmail(email: string, token: string): Prom
   }
 }
 
-export async function sendWelcomePremiumEmail(email: string): Promise<void> {
-  try {
-    await resend.emails.send({
-      from: emailFrom,
-      to: email,
-      subject: "Welcome to SocialPilot AI Premium! 🚀",
-      html: `
-        <div style="background-color: #0A0F1E; color: #F0F4FF; padding: 40px; font-family: sans-serif; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid rgba(255,255,255,0.1);">
-          <h2 style="color: #7C3AED; font-family: 'Syne', sans-serif; font-size: 24px;">You are now Premium! 🚀</h2>
-          <p style="font-size: 16px; line-height: 1.6; color: #94A3B8;">Thank you for upgrading to Premium. Your limits have been lifted, and you now have full access to unlimited communication templates, tone shifts, and message rewrites.</p>
-          <p style="font-size: 16px; line-height: 1.6; color: #94A3B8;">Head back to your dashboard to unleash the power of premium communication assistant!</p>
-          <div style="margin: 30px 0;">
-            <a href="${appUrl}/dashboard" style="background-color: #7C3AED; color: #FFFFFF; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block;">Go to Dashboard</a>
-          </div>
-          <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 30px 0;" />
-          <p style="font-size: 12px; color: #94A3B8;">For any inquiries regarding your billing or subscription, feel free to contact our support team at any time.</p>
-        </div>
-      `,
-    });
-  } catch (error) {
-    console.error("Error sending premium welcome email via Resend:", error);
-  }
-}
+

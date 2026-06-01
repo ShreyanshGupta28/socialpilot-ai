@@ -3,7 +3,7 @@
 import React from "react";
 import { Card, CardContent } from "../ui/Card";
 import { Badge } from "../ui/Badge";
-import { ShieldCheck, MessageCircle, TrendingUp, AlertTriangle } from "lucide-react";
+import { ShieldCheck, MessageCircle, TrendingUp, AlertTriangle, Plus } from "lucide-react";
 
 interface AnalysisData {
   intent: string;
@@ -16,9 +16,10 @@ interface AnalysisData {
 
 interface AnalysisBarProps {
   analysis: AnalysisData;
+  onAddToCRM?: () => void;
 }
 
-export function AnalysisBar({ analysis }: AnalysisBarProps) {
+export function AnalysisBar({ analysis, onAddToCRM }: AnalysisBarProps) {
   const getSentimentBadge = (sentiment: string) => {
     const s = sentiment.toLowerCase();
     if (s.includes("pos")) return <Badge variant="success">Positive</Badge>;
@@ -61,7 +62,21 @@ export function AnalysisBar({ analysis }: AnalysisBarProps) {
               AI Inbound Message Insights
             </h3>
           </div>
-          {getLeadTypeBadge(analysis.leadType)}
+          <div className="flex items-center gap-2">
+            {getLeadTypeBadge(analysis.leadType)}
+            {onAddToCRM && ["BRAND_DEAL", "SPONSORSHIP", "HIGH_VALUE_LEAD"].includes(analysis.leadType?.toUpperCase() || "") && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  onAddToCRM();
+                }}
+                className="h-7 text-[10px] font-bold font-syne px-2.5 rounded-lg border border-indigo-500 bg-indigo-600/10 text-indigo-400 hover:bg-indigo-600/20 transition-all cursor-pointer flex items-center gap-1 shrink-0 ml-1.5 shadow-sm"
+              >
+                <Plus className="h-3 w-3" />
+                Add to CRM
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Multi-grid stats */}

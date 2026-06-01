@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { ChannelTabs } from "@/components/reply/ChannelTabs";
 import { MessageInput } from "@/components/reply/MessageInput";
 import { ToneSelector } from "@/components/reply/ToneSelector";
@@ -8,7 +9,8 @@ import { ReplyCard } from "@/components/reply/ReplyCard";
 import { AnalysisBar } from "@/components/reply/AnalysisBar";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
-import { UpgradeModal } from "@/components/shared/UpgradeModal";
+import { Dialog } from "@/components/ui/Dialog";
+import { Input } from "@/components/ui/Input";
 import { toast } from "sonner";
 import { Sparkles, HelpCircle, AlertCircle, Download } from "lucide-react";
 
@@ -30,7 +32,91 @@ export default function ReplyGeneratorPage() {
   const [loading, setLoading] = React.useState(false);
   const [result, setResult] = React.useState<any>(null);
   const [errorDetails, setErrorDetails] = React.useState<string | null>(null);
-  const [isUpgradeOpen, setIsUpgradeOpen] = React.useState(false);
+  
+  const [customTemplates, setCustomTemplates] = React.useState<any[]>([]);
+  const [activeTemplateTab, setActiveTemplateTab] = React.useState<"standard" | "custom">("standard");
+
+  // Quick Add CRM Lead States
+  const [isCrmOpen, setIsCrmOpen] = React.useState(false);
+  const [crmName, setCrmName] = React.useState("");
+  const [crmHandle, setCrmHandle] = React.useState("");
+  const [crmEmail, setCrmEmail] = React.useState("");
+  const [crmNotes, setCrmNotes] = React.useState("");
+  const [crmLoading, setCrmLoading] = React.useState(false);
+
+  const handleOpenAddToCRM = () => {
+    if (!result) return;
+    
+    // Auto-extract possible brand name or pre-fill template
+    let inferredName = "";
+    // Simple regex to look for "Samsung", "Gymshark", or capitalized names in the inbound text
+    const capitalizeMatches = inputText.match(/we are ([A-Z][a-z0-9]+)/i) || inputText.match(/from ([A-Z][a-z0-9]+)/i);
+    if (capitalizeMatches && capitalizeMatches[1]) {
+      inferredName = capitalizeMatches[1] + " Sponsorship";
+    } else {
+      inferredName = "Detected Sponsorship Lead";
+    }
+
+    setCrmName(inferredName);
+    setCrmHandle("");
+    setCrmEmail("");
+    
+    // Pre-populate notes with intent and summary
+    const summaryText = result.analysis?.summary || "";
+    const intentText = result.analysis?.intent || "";
+    setCrmNotes(`Core Intent: ${intentText}\nSummary: ${summaryText}\nInbound message: "${inputText.substring(0, 100)}..."`);
+    
+    setIsCrmOpen(true);
+  };
+
+  const handleSaveToCRM = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!crmName.trim()) {
+      toast.error("Lead name is required.");
+      return;
+    }
+
+    setCrmLoading(true);
+    try {
+      const response = await fetch("/api/crm/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: crmName,
+          handle: crmHandle,
+          email: crmEmail,
+          status: "NEW",
+          notes: crmNotes,
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Failed to save lead.");
+
+      toast.success("Lead registered in CRM successfully!");
+      setIsCrmOpen(false);
+    } catch (err: any) {
+      toast.error(err.message || "Failed to create CRM lead.");
+    } finally {
+      setCrmLoading(false);
+    }
+  };
+
+  React.useEffect(() => {
+    async function loadCustomTemplates() {
+      try {
+        const res = await fetch("/api/templates");
+        const data = await res.json();
+        if (res.ok && data.templates) {
+          setCustomTemplates(data.templates);
+        }
+      } catch (e) {
+        console.error("Failed to load custom templates", e);
+      }
+    }
+    loadCustomTemplates();
+  }, []);
+
 
   // Keyboard shortcut listener for Cmd+Enter or Ctrl+Enter
   React.useEffect(() => {
@@ -69,11 +155,6 @@ export default function ReplyGeneratorPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        if (response.status === 402 && data.error === "LIMIT_EXCEEDED") {
-          toast.warning("Daily generation limit exceeded! Upgrade to unlock Premium.");
-          setIsUpgradeOpen(true);
-          return;
-        }
         throw new Error(data.details || data.error || "Failed to generate reply options");
       }
 
@@ -175,45 +256,104 @@ export default function ReplyGeneratorPage() {
         {/* Left Input Settings panel (7 cols) */}
         <div className="lg:col-span-7 space-y-6">
           {/* Quick Reply Templates */}
-          <div className="space-y-2">
-            <span className="text-sm font-semibold font-syne tracking-wide text-white block">
-              Quick Reply Templates
-            </span>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {[
-                {
-                  name: "🤝 Brand Collab",
-                  text: "Hi! I love your brand and would love to discuss a potential collaboration. I've attached my media kit with engagement stats. Let me know if you are open to discussing a partnership!"
-                },
-                {
-                  name: "💰 Sponsorship",
-                  text: "Hello! We are looking to sponsor creator content for our upcoming campaign. Are you open to brand integration sponsorships, and what are your rates for a dedicated post?"
-                },
-                {
-                  name: "📊 Pricing Inquiry",
-                  text: "Hi there! I'm interested in booking your services. Could you please share your rate card and price packages for sponsored campaigns?"
-                },
-                {
-                  name: "❤️ Fan Reply",
-                  text: "Hey! Just wanted to say I absolutely love your content, you inspire me so much! Keep up the amazing work!"
-                },
-                {
-                  name: "🛠️ Customer Support",
-                  text: "Hi! I placed an order but haven't received a tracking number yet. Can you please check my order status and help me out?"
-                }
-              ].map((tpl) => (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between border-b border-white/10 pb-2">
+              <span className="text-sm font-semibold font-syne tracking-wide text-white block">
+                Quick Reply Playbook
+              </span>
+              <div className="flex gap-2">
                 <button
-                  key={tpl.name}
-                  onClick={() => {
-                    setInputText(tpl.text);
-                    toast.info(`Loaded ${tpl.name} template!`);
-                  }}
-                  className="text-xs font-semibold py-2 px-3 rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors text-left truncate cursor-pointer font-sans"
+                  onClick={() => setActiveTemplateTab("standard")}
+                  className={`text-[11px] font-bold py-1.5 px-2.5 rounded-lg border transition-all cursor-pointer font-syne uppercase tracking-wider ${
+                    activeTemplateTab === "standard"
+                      ? "border-violet-500 bg-violet-600/10 text-violet-400"
+                      : "border-white/5 bg-white/5 text-[#94A3B8] hover:text-white"
+                  }`}
                 >
-                  {tpl.name}
+                  Standard
                 </button>
-              ))}
+                <button
+                  onClick={() => setActiveTemplateTab("custom")}
+                  className={`text-[11px] font-bold py-1.5 px-2.5 rounded-lg border transition-all cursor-pointer font-syne uppercase tracking-wider ${
+                    activeTemplateTab === "custom"
+                      ? "border-violet-500 bg-violet-600/10 text-violet-400"
+                      : "border-white/5 bg-white/5 text-[#94A3B8] hover:text-white"
+                  }`}
+                >
+                  My Templates ({customTemplates.length})
+                </button>
+              </div>
             </div>
+
+            {activeTemplateTab === "standard" ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {[
+                  {
+                    name: "🤝 Brand Collab",
+                    text: "Hi! I love your brand and would love to discuss a potential collaboration. I've attached my media kit with engagement stats. Let me know if you are open to discussing a partnership!"
+                  },
+                  {
+                    name: "💰 Sponsorship",
+                    text: "Hello! We are looking to sponsor creator content for our upcoming campaign. Are you open to brand integration sponsorships, and what are your rates for a dedicated post?"
+                  },
+                  {
+                    name: "📊 Pricing Inquiry",
+                    text: "Hi there! I'm interested in booking your services. Could you please share your rate card and price packages for sponsored campaigns?"
+                  },
+                  {
+                    name: "❤️ Fan Reply",
+                    text: "Hey! Just wanted to say I absolutely love your content, you inspire me so much! Keep up the amazing work!"
+                  },
+                  {
+                    name: "🛠️ Customer Support",
+                    text: "Hi! I placed an order but haven't received a tracking number yet. Can you please check my order status and help me out?"
+                  }
+                ].map((tpl) => (
+                  <button
+                    key={tpl.name}
+                    onClick={() => {
+                      setInputText(tpl.text);
+                      toast.info(`Loaded ${tpl.name} template!`);
+                    }}
+                    className="text-xs font-semibold py-2 px-3 rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors text-left truncate cursor-pointer font-sans"
+                  >
+                    {tpl.name}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div>
+                {customTemplates.length === 0 ? (
+                  <div className="bg-white/5 border border-white/5 rounded-xl p-4 text-center">
+                    <p className="text-xs text-muted leading-relaxed">
+                      You haven't built any custom templates yet.
+                    </p>
+                    <Link
+                      href="/templates"
+                      className="inline-block text-xs font-bold text-violet-400 hover:text-violet-300 mt-2 font-syne underline underline-offset-4 cursor-pointer"
+                    >
+                      Build Your Custom Playbook &rarr;
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {customTemplates.map((tpl) => (
+                      <button
+                        key={tpl.id}
+                        onClick={() => {
+                          setInputText(tpl.content);
+                          toast.info(`Loaded ${tpl.name} custom template!`);
+                        }}
+                        className="text-xs font-semibold py-2 px-3 rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-colors text-left truncate cursor-pointer font-sans"
+                        title={tpl.name}
+                      >
+                        🔖 {tpl.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Channel selector tabs */}
@@ -287,22 +427,22 @@ export default function ReplyGeneratorPage() {
             <Card className="bg-rose-500/5 border border-rose-500/20 p-6 space-y-4 shadow-lg text-left animate-fade-in">
               <div className="flex items-center gap-3 text-rose-400 border-b border-rose-500/10 pb-3">
                 <AlertCircle className="h-6 w-6" />
-                <h4 className="font-syne font-bold text-base text-white">
-                  Gemini API Generation Error
+                <h4 className="font-syne font-bold text-base text-slate-800">
+                  AI Assistant Service Notice
                 </h4>
               </div>
-              <p className="text-xs text-muted leading-relaxed">
-                The AI model encountered an issue during processing:
+              <p className="text-xs text-slate-500 leading-relaxed">
+                The AI assistant service encountered an issue during processing:
               </p>
-              <div className="bg-black/20 border border-white/5 rounded-xl p-3.5 text-xs font-mono text-rose-300 break-words leading-relaxed select-text">
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs font-mono text-rose-600 break-words leading-relaxed select-text">
                 {errorDetails}
               </div>
-              <div className="text-xs text-muted space-y-1.5 pt-1">
-                <p className="font-semibold text-[#F0F4FF]">Troubleshooting Checklist:</p>
+              <div className="text-xs text-slate-500 space-y-1.5 pt-1">
+                <p className="font-semibold text-[#334155]">Troubleshooting Checklist:</p>
                 <ul className="list-disc list-inside space-y-1">
-                  <li>Ensure your GEMINI_API_KEY is pasted in .env</li>
-                  <li>Check if the Gemini API model (gemini-2.5-flash) is active</li>
-                  <li>Verify internet connectivity and Google AI Studio availability</li>
+                  <li>Ensure your assistant service credentials are configured in .env</li>
+                  <li>Check if the AI assistant models are active</li>
+                  <li>Verify internet connectivity and AI studio availability</li>
                 </ul>
               </div>
               <Button
@@ -333,7 +473,7 @@ export default function ReplyGeneratorPage() {
           {!loading && result && (
             <div className="space-y-6 animate-fade-in">
               {/* Sentiment analysis insights */}
-              {result.analysis && <AnalysisBar analysis={result.analysis} />}
+              {result.analysis && <AnalysisBar analysis={result.analysis} onAddToCRM={handleOpenAddToCRM} />}
 
               {/* Six reply variations */}
               <div className="space-y-4">
@@ -365,8 +505,89 @@ export default function ReplyGeneratorPage() {
         </div>
       </div>
 
-      {/* Upgrade pricing check popup */}
-      <UpgradeModal isOpen={isUpgradeOpen} onClose={() => setIsUpgradeOpen(false)} />
+      {/* Quick CRM Dialogue Modal */}
+      <Dialog
+        isOpen={isCrmOpen}
+        onClose={() => setIsCrmOpen(false)}
+        title="Quick Register CRM Lead 📥"
+        description="Convert this detected brand deal query into an active CRM contact card."
+      >
+        <form onSubmit={handleSaveToCRM} className="space-y-4 text-slate-800 py-2">
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
+              Brand or Contact Name *
+            </label>
+            <Input
+              type="text"
+              placeholder="e.g. Samsung Sponsorship Dept"
+              value={crmName}
+              onChange={(e) => setCrmName(e.target.value)}
+              disabled={crmLoading}
+              required
+              className="text-sm focus:border-indigo-500 text-slate-800 bg-white border-slate-300"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
+              Instagram Handle / Social Contact
+            </label>
+            <Input
+              type="text"
+              placeholder="e.g. @samsung_influencers"
+              value={crmHandle}
+              onChange={(e) => setCrmHandle(e.target.value)}
+              disabled={crmLoading}
+              className="text-sm focus:border-indigo-500 text-slate-800 bg-white border-slate-300"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
+              Manager Email Address
+            </label>
+            <Input
+              type="email"
+              placeholder="e.g. sponsorships@samsung.com"
+              value={crmEmail}
+              onChange={(e) => setCrmEmail(e.target.value)}
+              disabled={crmLoading}
+              className="text-sm focus:border-indigo-500 text-slate-800 bg-white border-slate-300"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
+              AI Inferred Deal Notes
+            </label>
+            <textarea
+              rows={3}
+              value={crmNotes}
+              onChange={(e) => setCrmNotes(e.target.value)}
+              disabled={crmLoading}
+              className="w-full text-sm rounded-lg p-2.5 bg-white border border-slate-300 focus:border-indigo-500 focus:ring focus:ring-indigo-100 text-slate-800 font-sans"
+            />
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+            <Button
+              type="submit"
+              isLoading={crmLoading}
+              className="w-full sm:flex-1 py-3 text-xs sm:text-sm font-bold font-syne cursor-pointer"
+            >
+              Register Lead
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => setIsCrmOpen(false)}
+              className="w-full sm:w-auto text-xs cursor-pointer"
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </Dialog>
     </div>
   );
 }

@@ -123,91 +123,106 @@ export default async function AnalyticsPage() {
   const mostUsedTone = toneLabels[mostUsedToneKey] || "No Data Yet";
 
   return (
-    <div className="space-y-8 text-[#F0F4FF]">
+    <div className="space-y-8 text-[#334155]">
       {/* Title Header */}
       <div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold font-syne text-white tracking-wide flex items-center gap-2">
-          Analytics Dashboard
+        <h2 className="text-2xl sm:text-3xl font-extrabold font-syne text-[#334155] tracking-wide flex items-center gap-2">
+          Creator Insights
           <BarChart3 className="h-7 w-7 text-violet-400" />
         </h2>
-        <p className="text-sm text-muted mt-1">
-          Monitor your daily API credit levels, total message logs, and platform distribution.
+        <p className="text-sm text-slate-500 mt-1">
+          Monitor your platform collaborations, response statistics, and channel distribution in one place.
         </p>
       </div>
 
-      {/* KPI Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* KPI: Total Generations */}
-        <Card hoverEffect className="bg-white/5 border border-white/10 shadow-md">
-          <CardContent className="p-6 flex items-center justify-between">
-            <div className="space-y-1">
-              <span className="text-xs text-muted block uppercase tracking-wider font-semibold">
-                Total Runs
-              </span>
-              <span className="text-3xl font-extrabold font-syne text-white block">
-                {totalGens}
-              </span>
-            </div>
-            <div className="h-12 w-12 rounded-2xl bg-violet-500/15 border border-violet-500/25 flex items-center justify-center text-violet-400">
-              <Activity className="h-6 w-6" />
-            </div>
-          </CardContent>
+      {totalGens === 0 ? (
+        /* Stunning Premium Creator Insights Empty State */
+        <Card className="bg-white border-slate-200 border-dashed border-2 p-12 flex flex-col items-center justify-center text-center shadow-sm min-h-[350px] rounded-3xl animate-fade-in">
+          <div className="h-14 w-14 rounded-2xl bg-[#A78BFA]/10 flex items-center justify-center text-[#A78BFA] mb-5 border border-[#A78BFA]/20">
+            <BarChart3 className="h-7 w-7 animate-pulse" />
+          </div>
+          <h4 className="font-syne font-bold text-lg text-[#334155]">
+            Your creator insights will grow as you use the platform.
+          </h4>
+          <p className="text-sm text-slate-500 max-w-md mt-2 leading-relaxed font-sans">
+            Start generating replies or improving your drafts. Your response analytics, channel distribution, and top tone metrics will compile right here!
+          </p>
         </Card>
+      ) : (
+        <>
+          {/* KPI Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* KPI: Total Generations */}
+            <Card hoverEffect className="bg-white border border-slate-200 shadow-sm">
+              <CardContent className="p-6 flex items-center justify-between">
+                <div className="space-y-1">
+                  <span className="text-xs text-muted block uppercase tracking-wider font-semibold">
+                    Creations Run
+                  </span>
+                  <span className="text-3xl font-extrabold font-syne text-[#334155] block">
+                    {totalGens}
+                  </span>
+                </div>
+                <div className="h-12 w-12 rounded-2xl bg-violet-500/15 border border-violet-500/25 flex items-center justify-center text-violet-400">
+                  <Activity className="h-6 w-6" />
+                </div>
+              </CardContent>
+            </Card>
 
-        {/* KPI: Reply Gen */}
-        <Card hoverEffect className="bg-white/5 border border-white/10 shadow-md">
-          <CardContent className="p-6 flex items-center justify-between">
-            <div className="space-y-1">
-              <span className="text-xs text-muted block uppercase tracking-wider font-semibold">
-                Replies Composed
-              </span>
-              <span className="text-3xl font-extrabold font-syne text-white block">
-                {replyRuns}
-              </span>
-            </div>
-            <div className="h-12 w-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center text-emerald-400">
-              <TrendingUp className="h-6 w-6" />
-            </div>
-          </CardContent>
-        </Card>
+            {/* KPI: Reply Gen */}
+            <Card hoverEffect className="bg-white border border-slate-200 shadow-sm">
+              <CardContent className="p-6 flex items-center justify-between">
+                <div className="space-y-1">
+                  <span className="text-xs text-muted block uppercase tracking-wider font-semibold">
+                    Replies Composed
+                  </span>
+                  <span className="text-3xl font-extrabold font-syne text-[#334155] block">
+                    {replyRuns}
+                  </span>
+                </div>
+                <div className="h-12 w-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center text-[#F9A8D4]">
+                  <TrendingUp className="h-6 w-6" />
+                </div>
+              </CardContent>
+            </Card>
 
-        {/* KPI: Improver */}
-        <Card hoverEffect className="bg-white/5 border border-white/10 shadow-md">
-          <CardContent className="p-6 flex items-center justify-between">
-            <div className="space-y-1">
-              <span className="text-xs text-muted block uppercase tracking-wider font-semibold">
-                Draft Refinements
-              </span>
-              <span className="text-3xl font-extrabold font-syne text-white block">
-                {improveRuns}
-              </span>
-            </div>
-            <div className="h-12 w-12 rounded-2xl bg-indigo-500/15 border border-indigo-500/25 flex items-center justify-center text-[#5C6BC0]">
-              <Compass className="h-6 w-6" />
-            </div>
-          </CardContent>
-        </Card>
+            {/* KPI: Improver */}
+            <Card hoverEffect className="bg-white border border-slate-200 shadow-sm">
+              <CardContent className="p-6 flex items-center justify-between">
+                <div className="space-y-1">
+                  <span className="text-xs text-muted block uppercase tracking-wider font-semibold">
+                    Draft Refinements
+                  </span>
+                  <span className="text-3xl font-extrabold font-syne text-[#334155] block">
+                    {improveRuns}
+                  </span>
+                </div>
+                <div className="h-12 w-12 rounded-2xl bg-[#FDBA74]/15 border border-[#FDBA74]/25 flex items-center justify-center text-[#FDBA74]">
+                  <Compass className="h-6 w-6" />
+                </div>
+              </CardContent>
+            </Card>
 
-        {/* KPI: Plan Status */}
-        <Card hoverEffect className="bg-white/5 border border-white/10 shadow-md">
-          <CardContent className="p-6 flex items-center justify-between">
-            <div className="space-y-1">
-              <span className="text-xs text-muted block uppercase tracking-wider font-semibold">
-                Daily Credit Quota
-              </span>
-              <span className="text-3xl font-extrabold font-syne text-white block">
-                {dailyCount} <span className="text-xs text-muted font-normal font-sans">/ {maxQuota}</span>
-              </span>
-            </div>
-            <div className="h-12 w-12 rounded-2xl bg-amber-500/15 border border-amber-500/25 flex items-center justify-center text-amber-400">
-              <Sparkles className="h-6 w-6" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            {/* KPI: Plan Status */}
+            <Card hoverEffect className="bg-white border border-slate-200 shadow-sm">
+              <CardContent className="p-6 flex items-center justify-between">
+                <div className="space-y-1">
+                  <span className="text-xs text-muted block uppercase tracking-wider font-semibold">
+                    Daily Creations Run
+                  </span>
+                  <span className="text-3xl font-extrabold font-syne text-[#334155] block">
+                    {dailyCount} <span className="text-xs text-muted font-normal font-sans">/ {maxQuota}</span>
+                  </span>
+                </div>
+                <div className="h-12 w-12 rounded-2xl bg-violet-500/15 border border-violet-500/25 flex items-center justify-center text-violet-400">
+                  <Sparkles className="h-6 w-6" />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-      {/* Main Charts Workspace */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-2">
+          {/* Creator Insights overview */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-2">
         {/* Left Panel: SVG Bar Chart Trend (7 cols) */}
         <Card className="bg-gradient-to-br from-[#0E1528] to-[#0A0F1E] border border-white/10 shadow-lg lg:col-span-7">
           <CardContent className="p-6 space-y-6">
@@ -357,6 +372,7 @@ export default async function AnalyticsPage() {
           </Card>
         </div>
       </div>
+      </>)}
     </div>
   );
 }

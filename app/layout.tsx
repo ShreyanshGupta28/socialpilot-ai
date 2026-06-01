@@ -20,9 +20,9 @@ const syne = Syne({
 });
 
 export const metadata: Metadata = {
-  title: "SocialPilot AI - Your AI Communication Assistant",
+  title: "Creator Studio ✨",
   description:
-    "Generate instant, tailored responses for Instagram DMs, WhatsApp queries, and professional emails using advanced generative intelligence.",
+    "Manage collaborations, templates, opportunities, and creator communications in one beautiful place.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
 };
 
@@ -33,17 +33,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${syne.variable}`}>
-      <body className="antialiased min-h-screen bg-[#0A0F1E] text-[#F0F4FF]">
+      <body className="antialiased min-h-screen bg-[#FFFDF8] text-[#334155]">
         <Providers>
           {children}
           <Toaster
             position="top-right"
             toastOptions={{
               style: {
-                background: "#0E1528",
-                color: "#F0F4FF",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: "12px",
+                background: "#FFFFFF",
+                color: "#334155",
+                border: "1px solid rgba(249, 168, 212, 0.2)",
+                borderRadius: "16px",
+                boxShadow: "0 10px 25px -5px rgba(167, 139, 250, 0.08)",
               },
             }}
           />

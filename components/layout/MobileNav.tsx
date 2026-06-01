@@ -23,7 +23,7 @@ export function MobileNav() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-30 lg:hidden flex h-16 items-center justify-around border-t border-white/10 bg-[#070B16]/95 backdrop-blur-md px-2 pb-safe text-[#F0F4FF] shadow-lg shadow-black/45">
+    <nav className="fixed bottom-0 left-0 right-0 z-30 lg:hidden flex h-16 items-center justify-around border-t border-[#F1F5F9] bg-[#FFFFFF]/95 backdrop-blur-md px-2 pb-safe text-[#334155] shadow-lg shadow-violet-600/5">
       {navItems.map((item) => {
         const Icon = item.icon;
         const isActive = pathname === item.href;
@@ -33,7 +33,7 @@ export function MobileNav() {
             href={item.href}
             className={cn(
               "flex flex-col items-center justify-center flex-1 py-1 text-center transition-all cursor-pointer min-h-[44px] min-w-[44px]",
-              isActive ? "text-violet-500 scale-105" : "text-[#94A3B8] hover:text-[#F0F4FF]"
+              isActive ? "text-violet-600 scale-105" : "text-[#64748B] hover:text-violet-600"
             )}
           >
             <Icon className="h-5 w-5" />

@@ -29,7 +29,6 @@ model User {
   brandVoice        String         @default("Friendly")
   
   messages          Message[]
-  subscriptions     Subscription[]
   contacts          Contact[]
   templates         Template[]
 }
@@ -47,19 +46,7 @@ model Message {
   createdAt   DateTime @default(now())
 }
 
-model Subscription {
-  id                   String   @id @default(cuid())
-  userId               String
-  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  stripeCustomerId     String
-  stripeSubscriptionId String   @unique
-  stripePriceId        String
-  status               String
-  currentPeriodEnd     DateTime
-  cancelAtPeriodEnd    Boolean  @default(false)
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
-}
+
 
 model Contact {
   id              String   @id @default(cuid())

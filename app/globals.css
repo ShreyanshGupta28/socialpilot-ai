@@ -4,8 +4,8 @@
 
 @layer base {
   body {
-    background-color: #F8FAFC !important;
-    color: #0F172A !important;
+    background-color: #FFFDF8 !important; /* Warm warm-cream backdrop */
+    color: #334155 !important; /* Soft slate text */
     font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
@@ -13,28 +13,29 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-syne), sans-serif;
-    color: #0F172A !important;
+    color: #334155 !important;
+    font-weight: 800 !important;
   }
 }
 
-/* Softer scrollbar for clean white look */
+/* Elegant warm cream webkit scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F8FAFC;
+  background: #FFFDF8;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #F9A8D4; /* Soft pink scrollbar thumb */
   border-radius: 9999px;
-  border: 1px solid #F8FAFC;
+  border: 1px solid #FFFDF8;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #A78BFA;
 }
 
 /* Animations */
@@ -59,7 +60,7 @@
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.97);
   }
   to {
     opacity: 1;
@@ -76,73 +77,78 @@
 }
 
 .animate-fade-in {
-  animation: fade-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fade-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Master Premium Light Theme CSS Overrides */
+/* Pinterest & Canva Inspired Warm Feminine creator Design Layer */
 
 /* 1. Sidebar & Header Global Overrides */
 aside, header {
   background-color: #FFFFFF !important;
   background-image: none !important;
-  color: #0F172A !important;
-  border-color: #E2E8F0 !important;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03) !important;
+  color: #334155 !important;
+  border-color: rgba(167, 139, 250, 0.08) !important; /* Soft violet border tint */
+  box-shadow: 0 4px 20px -2px rgba(167, 139, 250, 0.03) !important;
 }
 
 aside .text-white, header .text-white {
-  color: #0F172A !important;
+  color: #334155 !important;
 }
 
-/* 2. Core Primary and Active Navigation States */
+/* 2. Core Primary and Active Navigation States (Violet-to-Pink Canva Gradient) */
 .bg-violet-600 {
-  background-color: #6366F1 !important; /* Premium Indigo Primary */
+  background: linear-gradient(135deg, #A78BFA 0%, #F9A8D4 100%) !important; /* Premium Lavender-to-Pink gradient */
+  border: none !important;
   color: #FFFFFF !important;
+  box-shadow: 0 4px 14px 0 rgba(167, 139, 250, 0.3) !important; /* Soft purple shadow */
 }
 
 .text-violet-500, .text-violet-400 {
-  color: #6366F1 !important;
+  color: #A78BFA !important;
 }
 
 .hover\:bg-white\/5:hover {
-  background-color: #F1F5F9 !important;
+  background-color: rgba(249, 168, 212, 0.08) !important; /* Pink-transparency hover */
+  color: #A78BFA !important;
 }
 
-/* 3. Cards & Panels (Stripe / Notion / Linear inspired) */
+/* 3. Pinterest-inspired Rounded Cards with Soft Gradients & Glows */
 .bg-\[\#0E1528\], 
 .bg-\[\#0E1428\], 
 .bg-white\/5, 
 .bg-white\/\[0\.02\], 
 .bg-white\/\[0\.03\],
-.bg-white\/\[0\.05\] {
+.bg-white\/\[0\.05\],
+.bg-[#070B16] {
   background-color: #FFFFFF !important;
   background-image: none !important;
-  border-color: #E2E8F0 !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(249, 168, 212, 0.12) !important; /* Soft pink border highlight */
+  border-radius: 20px !important; /* Generous Canva rounding */
+  box-shadow: 0 10px 30px -5px rgba(167, 139, 250, 0.04), 0 4px 12px -2px rgba(249, 168, 212, 0.03) !important; /* Elegant dual-shadow */
 }
 
 .bg-white\/\[0\.01\] {
-  background-color: #F8FAFC !important;
-  border-color: #E2E8F0 !important;
+  background-color: #FFFDF8 !important;
+  border-color: rgba(167, 139, 250, 0.06) !important;
 }
 
 /* Glow Backgrounds */
 .radial-bg-glow {
-  background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05), transparent 60%) !important;
+  background: radial-gradient(circle at 50% 50%, rgba(249, 168, 212, 0.1), transparent 70%) !important; /* Soft warm pink glow */
 }
 
 /* 4. Soft High-Contrast Borders */
 .border-white\/10, .border-white\/5 {
-  border-color: #E2E8F0 !important;
+  border-color: rgba(249, 168, 212, 0.1) !important;
 }
 
 /* 5. Typography Color Mapping */
 .text-\[\#F0F4FF\] {
-  color: #0F172A !important;
+  color: #334155 !important;
 }
 
 .text-\[\#94A3B8\] {
-  color: #64748B !important; /* Clean slate-500 Muted */
+  color: #64748B !important; /* Slate Muted */
 }
 
 .text-muted {
@@ -150,7 +156,7 @@ aside .text-white, header .text-white {
 }
 
 .text-white {
-  color: #0F172A !important;
+  color: #334155 !important;
 }
 
 /* Protect white text on active solid Indigo buttons */
@@ -160,100 +166,105 @@ button.bg-violet-600 *,
   color: #FFFFFF !important;
 }
 
-/* 6. Inputs & Forms (Premium Linear look) */
+/* 6. Inputs & Forms (Premium Warm Creator look) */
 input, textarea, select {
   background-color: #FFFFFF !important;
-  color: #0F172A !important;
-  border: 1px solid #CBD5E1 !important;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02) !important;
-  border-radius: 8px !important;
-  transition: all 0.15s ease-in-out !important;
+  color: #334155 !important;
+  border: 1px solid rgba(167, 139, 250, 0.2) !important; /* Soft lavender border */
+  box-shadow: 0 2px 8px -2px rgba(167, 139, 250, 0.04) !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease-in-out !important;
 }
 
 input:focus, textarea:focus, select:focus {
-  border-color: #6366F1 !important;
+  border-color: #A78BFA !important;
   outline: none !important;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.02) !important;
+  box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.15) !important; /* Lavender focus halo */
 }
 
 input::placeholder, textarea::placeholder {
   color: #94A3B8 !important;
 }
 
-/* 7. Dialog & Popups (Stripe overlays) */
+/* 7. Dialog & Popups (Canva layouts overlays) */
 .dialog-overlay {
-  background-color: rgba(15, 23, 42, 0.4) !important;
+  background-color: rgba(51, 65, 85, 0.2) !important; /* Warm slate translucent overlay */
+  backdrop-filter: blur(4px) !important;
 }
 
 .dialog-content {
   background-color: #FFFFFF !important;
-  color: #0F172A !important;
-  border: 1px solid #E2E8F0 !important;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05) !important;
+  color: #334155 !important;
+  border: 1px solid rgba(249, 168, 212, 0.15) !important;
+  border-radius: 24px !important; /* Extra rounded dialogs */
+  box-shadow: 0 20px 40px -15px rgba(167, 139, 250, 0.1), 0 10px 20px -10px rgba(249, 168, 212, 0.05) !important;
 }
 
 /* 8. Accent Indicators & Badges */
 .badge, .plan-badge-free {
-  background-color: #F1F5F9 !important;
-  color: #475569 !important;
-  border: 1px solid #E2E8F0 !important;
+  background-color: rgba(249, 168, 212, 0.08) !important;
+  color: #F9A8D4 !important;
+  border: 1px solid rgba(249, 168, 212, 0.15) !important;
+  border-radius: 9999px !important;
 }
 
 .plan-badge-premium {
-  background-color: #6366F1 !important;
+  background: linear-gradient(135deg, #A78BFA 0%, #F9A8D4 100%) !important;
   color: #FFFFFF !important;
 }
 
-/* 9. Analytics Metric Card Highlights */
+/* 9. Analytics Metric Card Highlights (mapped to feminine palette) */
 .bg-violet-500\/15 {
-  background-color: rgba(99, 102, 241, 0.08) !important;
-  border-color: rgba(99, 102, 241, 0.12) !important;
+  background-color: rgba(167, 139, 250, 0.08) !important;
+  border-color: rgba(167, 139, 250, 0.12) !important;
 }
 .text-violet-400 {
-  color: #6366F1 !important;
+  color: #A78BFA !important;
 }
 
 .bg-emerald-500\/15 {
-  background-color: rgba(16, 185, 129, 0.08) !important;
-  border-color: rgba(16, 185, 129, 0.12) !important;
+  background-color: rgba(249, 168, 212, 0.08) !important;
+  border-color: rgba(249, 168, 212, 0.12) !important;
 }
 .text-emerald-400 {
-  color: #10B981 !important;
+  color: #F9A8D4 !important; /* Pink overrides emerald */
 }
 
 .bg-indigo-500\/15 {
-  background-color: rgba(139, 92, 246, 0.08) !important;
-  border-color: rgba(139, 92, 246, 0.12) !important;
+  background-color: rgba(253, 186, 116, 0.08) !important;
+  border-color: rgba(253, 186, 116, 0.12) !important;
 }
 .text-\[\#5C6BC0\] {
-  color: #8B5CF6 !important;
+  color: #FDBA74 !important; /* Peach overrides indigo */
 }
 
 .bg-amber-500\/15 {
-  background-color: rgba(245, 158, 11, 0.08) !important;
-  border-color: rgba(245, 158, 11, 0.12) !important;
+  background-color: rgba(253, 186, 116, 0.08) !important;
+  border-color: rgba(253, 186, 116, 0.12) !important;
 }
 .text-amber-400 {
-  color: #F59E0B !important;
+  color: #FDBA74 !important;
 }
 
 /* Weekly Trend SVGs color adjustments */
 svg line {
-  stroke: #F1F5F9 !important;
+  stroke: rgba(249, 168, 212, 0.1) !important;
 }
 
-svg linearGradient stop[stop-color="#7C3AED"] {
-  stop-color: #6366F1 !important;
+svg linearGradient stop[stop-color="#7C3AED"],
+svg linearGradient stop[stop-color="#6366F1"] {
+  stop-color: #A78BFA !important;
 }
-svg linearGradient stop[stop-color="#5C6BC0"] {
-  stop-color: #8B5CF6 !important;
+svg linearGradient stop[stop-color="#5C6BC0"],
+svg linearGradient stop[stop-color="#8B5CF6"] {
+  stop-color: #F9A8D4 !important;
 }
 
 /* Print Overrides for PDF Export */
 @media print {
   body {
     background-color: #FFFFFF !important;
-    color: #000000 !important;
+    color: #334155 !important;
   }
   
   .no-print {
@@ -261,7 +272,7 @@ svg linearGradient stop[stop-color="#5C6BC0"] {
   }
   
   .print-card {
-    border: 1px solid #E2E8F0 !important;
+    border: 1px solid rgba(249, 168, 212, 0.1) !important;
     box-shadow: none !important;
     break-inside: avoid !important;
   }

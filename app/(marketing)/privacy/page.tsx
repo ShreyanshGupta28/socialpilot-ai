@@ -21,22 +21,22 @@ export default function PrivacyPage() {
           
           <h2 className="text-lg font-bold font-syne text-white pt-2">1. Data We Collect</h2>
           <p>
-            We collect the email address, name, and billing details provided during registration and premium upgrade checkout. We also securely process message inputs pasted into our tools to generate automated replies via third-party AI APIs (such as OpenAI).
+            We collect the email address and name provided during registration. We also securely process message inputs pasted into our tools to generate automated replies via third-party AI APIs (such as Google Gemini).
           </p>
 
           <h2 className="text-lg font-bold font-syne text-white pt-2">2. How We Use Your Data</h2>
           <p>
-            Your information is utilized solely to provide our core AI-assisted reply templates, maintain active account records, confirm credentials during logins, and charge subscription plans via our payment processor, Stripe.
+            Your information is utilized solely to provide our core AI-assisted reply templates, maintain active account records, and confirm credentials during logins.
           </p>
 
           <h2 className="text-lg font-bold font-syne text-white pt-2">3. Third Party Integrations</h2>
           <p>
-            We share message prompts with OpenAI to generate responses and pass email info to Stripe for checkout sessions. All communications are encrypted and governed by strict compliance agreements.
+            We share message prompts with AI endpoints to generate responses. All communications are encrypted and governed by strict compliance agreements.
           </p>
 
           <h2 className="text-lg font-bold font-syne text-white pt-2">4. Your Data Choices</h2>
           <p>
-            You retain absolute ownership over your account data. You can delete your profile, generation history, and billing links at any time within your settings panel, which cascades immediately to delete all database entries.
+            You retain absolute ownership over your account data. You can delete your profile and generation history at any time within your settings panel, which cascades immediately to delete all database entries.
           </p>
         </div>
       </div>

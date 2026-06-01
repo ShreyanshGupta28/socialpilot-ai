@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { Badge } from "@/components/ui/Badge";
 import {
   Sparkles,
   Zap,
@@ -80,16 +81,16 @@ export default function MarketingPage() {
 
   const faqItems = [
     {
-      q: "How does the daily generation credit limit work?",
-      a: "On our Free Plan, you receive 30 AI generations every day at no cost. Credits reset daily at midnight. Upgrading to Premium lifts all caps, giving you unlimited templates.",
+      q: "Is SocialPilot AI really free to use?",
+      a: "Yes, 100%! SocialPilot AI is built to empower content creators and influencers without subscription gates. You get unlimited daily AI generations, custom templates, and brand opportunities tracking absolutely free.",
     },
     {
       q: "Does Auto-Detect channel really understand the text context?",
       a: "Yes! Powered by Google Gemini intelligence, SocialPilot AI parses the layout, greetings, and syntax. It can tell an informal Instagram comment apart from a structured business inquiry.",
     },
     {
-      q: "Can I manage my Stripe premium subscriptions easily?",
-      a: "Absolutely. We utilize Stripe's self-serve Customer Portal. You can change payment options, toggle annual renewals, or cancel your Premium subscription anytime with a single click in settings.",
+      q: "Do you plan to add paid plans or credit gates in the future?",
+      a: "No. Our core AI replying assistant, creator settings, and visual brand opportunities board are permanently free for all content creators to build and organize their sponsorship channels.",
     },
     {
       q: "How secure is my profile and data?",
@@ -230,112 +231,58 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="relative z-10 max-w-5xl mx-auto px-6 py-20 border-t border-white/5">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold font-syne tracking-tight text-white">
-            Pricing Tailored for Growth
+      {/* Platform Vision Section */}
+      <section id="pricing" className="relative z-10 max-w-5xl mx-auto px-6 py-20 border-t border-white/5 text-center">
+        <div className="max-w-3xl mx-auto mb-12">
+          <Badge variant="primary" className="bg-gradient-to-r from-violet-600 to-indigo-500 border-none font-bold uppercase tracking-wider text-[10px] px-3 py-1 mb-4 shadow-md shadow-violet-500/10">
+            100% FREE FOREVER
+          </Badge>
+          <h2 className="text-3xl sm:text-4xl font-extrabold font-syne tracking-tight text-white mt-2">
+            Empowering Creators Without Boundaries
           </h2>
-          <p className="text-sm sm:text-base text-muted mt-4 leading-relaxed">
-            Get started for free or upgrade to Premium to lift all boundaries.
+          <p className="text-sm sm:text-base text-slate-400 mt-4 leading-relaxed">
+            We believe creators shouldn't have to pay subscription taxes to manage their communities. SocialPilot AI is completely free, offering unrestricted premium utilities to content creators worldwide.
           </p>
-
-          {/* Pricing Toggle */}
-          <div className="flex items-center justify-center gap-3.5 mt-8">
-            <span className={`text-sm ${!isAnnual ? "text-white font-bold" : "text-muted"}`}>Monthly</span>
-            <button
-              onClick={() => setIsAnnual(!isAnnual)}
-              className="relative w-12 h-6.5 rounded-full bg-violet-600/30 border border-violet-500/30 p-1 transition-colors outline-none cursor-pointer"
-            >
-              <div
-                className={`h-4.5 w-4.5 rounded-full bg-violet-500 transition-transform duration-200 ${
-                  isAnnual ? "translate-x-5.5" : "translate-x-0"
-                }`}
-              />
-            </button>
-            <span className={`text-sm ${isAnnual ? "text-white font-bold" : "text-muted"} flex items-center gap-1.5`}>
-              Annual
-              <span className="bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-[10px] font-extrabold px-1.5 py-0.5 rounded-md tracking-wider">
-                SAVE 20%
-              </span>
-            </span>
-          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch max-w-4xl mx-auto">
-          {/* Free Plan */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 flex flex-col justify-between shadow-md">
-            <div>
-              <h3 className="text-lg font-bold font-syne text-[#F0F4FF] tracking-wider uppercase">Free</h3>
-              <p className="text-sm text-muted mt-1">Perfect for trial testing.</p>
-              <div className="mt-6">
-                <span className="text-4xl font-extrabold font-syne">$0</span>
-                <span className="text-xs text-muted ml-1">forever</span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto text-left mt-8">
+          {[
+            {
+              title: "Unlimited AI Generations",
+              desc: "Get unlimited daily AI message response recommendations across all your social channels. Zero generation caps.",
+              icon: Sparkles,
+            },
+            {
+              title: "Sponsorship Tracker",
+              desc: "Organize deal flow, manage negotiations, and follow up with brand partners through our visual collaborations board.",
+              icon: Check,
+            },
+            {
+              title: "Custom Templates Builder",
+              desc: "Create and customize your quick reply playbook. Save brand collabs, media kit pitches, and FAQ responses.",
+              icon: Check,
+            },
+          ].map((feat, idx) => {
+            const Icon = feat.icon;
+            return (
+              <div key={idx} className="bg-[#0E1528]/40 border border-white/5 rounded-2xl p-6 space-y-3 shadow-md hover:border-violet-500/30 transition-all">
+                <div className="h-10 w-10 rounded-xl bg-violet-600/10 border border-violet-500/25 flex items-center justify-center text-violet-400">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <h3 className="text-base font-bold font-syne text-white">{feat.title}</h3>
+                <p className="text-xs text-slate-400 leading-relaxed">{feat.desc}</p>
               </div>
-              <hr className="border-white/5 my-6" />
-              <ul className="space-y-3.5">
-                {[
-                  "30 daily AI generation credits",
-                  "Auto-Detect channel processing",
-                  "Access to standard tones",
-                  "Standard response speeds",
-                ].map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-2.5 text-sm text-muted">
-                    <Check className="h-4 w-4 text-violet-400 shrink-0 mt-0.5" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <Link
-              href="/signup"
-              className="mt-8 inline-flex items-center justify-center w-full bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold h-11 rounded-xl transition-all cursor-pointer"
-            >
-              Sign Up Free
-            </Link>
-          </div>
+            );
+          })}
+        </div>
 
-          {/* Premium Plan */}
-          <div className="bg-[#0E1428] border-2 border-violet-500/30 rounded-3xl p-8 flex flex-col justify-between relative shadow-xl">
-            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-violet-600 to-indigo-500 border border-violet-400/20 text-white text-[10px] font-extrabold uppercase tracking-widest px-4 py-1 rounded-full shadow-md">
-              Most Popular
-            </div>
-            <div>
-              <h3 className="text-lg font-bold font-syne text-[#F0F4FF] tracking-wider uppercase flex items-center gap-1.5">
-                Premium
-                <Sparkles className="h-4.5 w-4.5 text-violet-400 fill-violet-400/20" />
-              </h3>
-              <p className="text-sm text-muted mt-1">Unlock total AI capability.</p>
-              <div className="mt-6">
-                <span className="text-4xl font-extrabold font-syne">
-                  {isAnnual ? "$15" : "$19"}
-                </span>
-                <span className="text-xs text-muted ml-1">/month, {isAnnual ? "billed annually" : "monthly"}</span>
-              </div>
-              <hr className="border-white/5 my-6" />
-              <ul className="space-y-3.5">
-                {[
-                  "Unlimited daily AI generations",
-                  "Prioritized Gemini processing speeds",
-                  "Specialized platform channels active",
-                  "Refinement Message Improver included",
-                  "Saved replies library & bookmarks",
-                  "Stripe Customer Portal access",
-                ].map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-2.5 text-sm text-[#F0F4FF]">
-                    <Check className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <Link
-              href="/signup?plan=premium"
-              className="mt-8 inline-flex items-center justify-center w-full bg-violet-600 hover:bg-violet-700 text-white font-bold h-11 rounded-xl transition-all shadow-md shadow-violet-600/10 cursor-pointer"
-            >
-              Get Premium Now
-            </Link>
-          </div>
+        <div className="mt-12">
+          <Link
+            href="/signup"
+            className="inline-flex items-center justify-center bg-violet-600 hover:bg-violet-700 text-white font-bold h-12 px-8 rounded-xl transition-all shadow-md shadow-violet-600/15 cursor-pointer"
+          >
+            Create Your Free Account Now
+          </Link>
         </div>
       </section>
 
@@ -390,7 +337,7 @@ export default function MarketingPage() {
           <span>•</span>
           <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
         </div>
-        <p>© {new Date().getFullYear()} SocialPilot AI. All rights reserved. Your premium communication partner.</p>
+        <p>© {new Date().getFullYear()} SocialPilot AI. All rights reserved. The ultimate communication assistant for content creators.</p>
       </footer>
     </div>
   );

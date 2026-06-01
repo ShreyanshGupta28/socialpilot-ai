@@ -46,12 +46,7 @@ export async function checkAndIncrementUsage(userId: string): Promise<void> {
     return;
   }
 
-  // Same day. Check if the user is on FREE plan and exceeded limit
-  if (user.plan === "FREE" && currentCount >= 30) {
-    throw new UsageLimitError();
-  }
-
-  // Increment usage count
+  // Increment usage count for analytics/daily stats
   await prisma.user.update({
     where: { id: userId },
     data: {

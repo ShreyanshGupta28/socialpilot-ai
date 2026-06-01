@@ -49,21 +49,22 @@ export default async function DashboardPage() {
   const userCount = dbUser?.dailyCount || 0;
 
   return (
-    <div className="space-y-8 text-[#F0F4FF]">
-      {/* Welcome header row */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold font-syne text-white tracking-wide">
-            {getGreeting()}, {dbUser?.name || "Pilot"}!
+    <div className="space-y-8 text-[#334155]">
+      {/* Welcoming Dashboard Hero Banner */}
+      <div className="relative overflow-hidden rounded-3xl border border-[#F9A8D4]/25 bg-gradient-to-r from-[#A78BFA]/10 via-[#F9A8D4]/10 to-[#FDBA74]/10 p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-sm shadow-[#A78BFA]/5">
+        <div className="absolute top-0 right-0 -mt-8 -mr-8 h-32 w-32 rounded-full bg-gradient-to-br from-[#F9A8D4]/20 to-[#FDBA74]/20 blur-xl pointer-events-none" />
+        <div className="relative z-10 space-y-2 max-w-xl">
+          <h2 className="text-2xl sm:text-3xl font-extrabold font-syne text-[#334155] tracking-wide">
+            Welcome to your Creator Studio, {dbUser?.name || "Aanya"} ✨
           </h2>
-          <p className="text-sm text-muted mt-1">
-            Analyze customer messages and compose premium responses instantly.
+          <p className="text-sm text-[#64748B] leading-relaxed">
+            Manage collaborations, templates, opportunities, and creator communications in one beautiful place.
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="relative z-10 flex items-center gap-3 shrink-0">
           <Link
             href="/reply"
-            className="inline-flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl transition-all shadow-md shadow-violet-600/10 cursor-pointer"
+            className="inline-flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 text-white font-bold text-sm px-5 py-3 rounded-xl transition-all shadow-md shadow-violet-600/20 cursor-pointer font-syne"
           >
             New Reply
             <MessageSquareReply className="h-4.5 w-4.5" />
@@ -134,9 +135,9 @@ export default async function DashboardPage() {
             </p>
             <Link
               href="/reply"
-              className="inline-flex items-center gap-1.5 text-xs font-bold font-syne tracking-wider text-violet-400 group-hover:text-violet-300 transition-colors uppercase pt-2"
+              className="inline-flex items-center gap-1.5 text-xs font-bold font-syne tracking-wider text-violet-600 hover:text-violet-500 transition-colors uppercase pt-2"
             >
-              Open Workspace
+              Enter Creator Studio
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </CardContent>
@@ -159,9 +160,9 @@ export default async function DashboardPage() {
             </p>
             <Link
               href="/improve"
-              className="inline-flex items-center gap-1.5 text-xs font-bold font-syne tracking-wider text-[#5C6BC0] group-hover:text-indigo-400 transition-colors uppercase pt-2"
+              className="inline-flex items-center gap-1.5 text-xs font-bold font-syne tracking-wider text-[#A78BFA] hover:text-[#F9A8D4] transition-colors uppercase pt-2"
             >
-              Open Workspace
+              Enter Creator Studio
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </CardContent>

@@ -12,7 +12,6 @@ export const config = {
     "/reply/:path*",
     "/improve/:path*",
     "/saved/:path*",
-    "/billing/:path*",
     "/settings/:path*",
   ],
 };

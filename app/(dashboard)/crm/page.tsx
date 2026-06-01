@@ -43,6 +43,38 @@ export default function CRMPage() {
   const [notes, setNotes] = React.useState("");
   const [formLoading, setFormLoading] = React.useState(false);
 
+  // Follow-up generator states
+  const [isFollowupOpen, setIsFollowupOpen] = React.useState(false);
+  const [followupLoading, setFollowupLoading] = React.useState(false);
+  const [followupResult, setFollowupResult] = React.useState<any>(null);
+
+  const handleTriggerFollowup = async (contactId: string) => {
+    setIsFollowupOpen(true);
+    setFollowupLoading(true);
+    setFollowupResult(null);
+
+    try {
+      const res = await fetch("/api/ai/followup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contactId }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setFollowupResult(data);
+      } else {
+        toast.error(data.details || "Failed to generate follow-up.");
+        setIsFollowupOpen(false);
+      }
+    } catch (e) {
+      toast.error("Network error generating follow-up.");
+      setIsFollowupOpen(false);
+    } finally {
+      setFollowupLoading(false);
+    }
+  };
+
   // Fetch all CRM contacts on mount
   const fetchContacts = async () => {
     try {
@@ -51,10 +83,10 @@ export default function CRMPage() {
       if (res.ok && data.contacts) {
         setContacts(data.contacts);
       } else {
-        toast.error("Failed to load CRM pipeline.");
+        toast.error("Failed to load Brand Opportunities.");
       }
     } catch (e) {
-      toast.error("Network error loading CRM pipeline.");
+      toast.error("Network error loading Brand Opportunities.");
     } finally {
       setLoading(false);
     }
@@ -80,9 +112,9 @@ export default function CRMPage() {
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Failed to add lead.");
+      if (!response.ok) throw new Error(data.error || "Failed to add opportunity.");
 
-      toast.success("Sponsorship lead added successfully!");
+      toast.success("Brand opportunity saved successfully!");
       setIsAddOpen(false);
       
       // Clear fields
@@ -94,7 +126,7 @@ export default function CRMPage() {
       
       fetchContacts();
     } catch (err: any) {
-      toast.error(err.message || "Failed to create lead.");
+      toast.error(err.message || "Failed to create opportunity.");
     } finally {
       setFormLoading(false);
     }
@@ -110,7 +142,7 @@ export default function CRMPage() {
 
       if (!response.ok) throw new Error("Failed to update status");
       
-      toast.success(`Lead moved to ${newStatus}!`);
+      toast.success(`Opportunity moved to ${newStatus}!`);
       fetchContacts();
     } catch (e) {
       toast.error("Failed to update lead status.");
@@ -118,28 +150,28 @@ export default function CRMPage() {
   };
 
   const handleDeleteContact = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this lead from your pipeline?")) return;
+    if (!confirm("Are you sure you want to delete this brand opportunity?")) return;
 
     try {
       const response = await fetch(`/api/crm/contact?id=${id}`, {
         method: "DELETE",
       });
 
-      if (!response.ok) throw new Error("Failed to delete lead");
+      if (!response.ok) throw new Error("Failed to delete opportunity");
 
-      toast.success("Lead removed from pipeline.");
+      toast.success("Opportunity deleted successfully.");
       fetchContacts();
     } catch (e) {
-      toast.error("Failed to delete lead.");
+      toast.error("Failed to delete opportunity.");
     }
   };
 
   // Group contacts by status
   const columns = [
-    { key: "NEW", title: "📥 New Leads", color: "bg-blue-500/10 text-blue-600 border-blue-200" },
+    { key: "NEW", title: "📥 New Opportunities", color: "bg-blue-500/10 text-blue-600 border-blue-200" },
     { key: "INTERESTED", title: "⭐️ Interested", color: "bg-violet-500/10 text-violet-600 border-violet-200" },
     { key: "NEGOTIATING", title: "💬 Negotiating", color: "bg-amber-500/10 text-amber-600 border-amber-200" },
-    { key: "CLOSED", title: "🎉 Deals Closed", color: "bg-emerald-500/10 text-emerald-600 border-emerald-200" }
+    { key: "CLOSED", title: "🎉 Collaborations Closed", color: "bg-emerald-500/10 text-emerald-600 border-emerald-200" }
   ];
 
   const getNextStage = (current: string) => {
@@ -150,25 +182,25 @@ export default function CRMPage() {
   };
 
   return (
-    <div className="space-y-8 text-[#0F172A] font-sans">
+    <div className="space-y-8 text-[#334155] font-sans">
       {/* Page Title */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold font-syne text-[#0F172A] tracking-wide flex items-center gap-2">
-            Influencer CRM
+          <h2 className="text-2xl sm:text-3xl font-extrabold font-syne text-[#334155] tracking-wide flex items-center gap-2">
+            Brand Opportunities
             <Users className="h-7 w-7 text-indigo-500" />
           </h2>
           <p className="text-sm text-slate-500 mt-1">
-            Track sponsorship negotiations, manage active brand deals, and organize campaign conversations in one place.
+            Track collaboration opportunities, manage active sponsorships, and organize campaign negotiations in one place.
           </p>
         </div>
         <div>
           <Button 
             onClick={() => setIsAddOpen(true)}
-            className="flex items-center gap-2 py-3 px-5 text-sm font-bold font-syne shadow-md shadow-indigo-600/10 cursor-pointer"
+            className="flex items-center gap-2 py-3 px-5 text-sm font-bold font-syne shadow-md shadow-indigo-600/10 cursor-pointer bg-gradient-to-r from-[#A78BFA] to-[#F9A8D4] border-0 text-white"
           >
             <Plus className="h-4.5 w-4.5" />
-            Add New Lead
+            Add Opportunity
           </Button>
         </div>
       </div>
@@ -182,6 +214,25 @@ export default function CRMPage() {
             </Card>
           ))}
         </div>
+      ) : contacts.length === 0 ? (
+        /* Stunning Premium Opportunities Empty State */
+        <Card className="bg-white border-slate-200 border-dashed border-2 p-12 flex flex-col items-center justify-center text-center shadow-sm min-h-[350px] rounded-3xl animate-fade-in">
+          <div className="h-14 w-14 rounded-2xl bg-[#A78BFA]/10 flex items-center justify-center text-[#A78BFA] mb-5 border border-[#A78BFA]/20">
+            <Sparkles className="h-7 w-7 animate-pulse" />
+          </div>
+          <h4 className="font-syne font-bold text-lg text-[#334155]">
+            No brand opportunities yet
+          </h4>
+          <p className="text-sm text-slate-500 max-w-md mt-2 leading-relaxed font-sans">
+            Your future collaborations will appear here. Track campaign details, organize brand offers, and grow your partnerships seamlessly.
+          </p>
+          <Button 
+            onClick={() => setIsAddOpen(true)}
+            className="mt-6 text-xs font-bold px-5 py-3 cursor-pointer bg-gradient-to-r from-[#A78BFA] to-[#F9A8D4] border-0 text-white font-syne"
+          >
+            Register Your First Opportunity
+          </Button>
+        </Card>
       ) : (
         /* CRM Board Grid */
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -205,8 +256,8 @@ export default function CRMPage() {
                 {/* Cards Container */}
                 <div className="flex-1 space-y-4 overflow-y-auto">
                   {colContacts.length === 0 ? (
-                    <div className="h-32 border-2 border-dashed border-slate-100 rounded-xl flex flex-col items-center justify-center text-center p-4">
-                      <span className="text-[10px] font-semibold text-slate-400 block uppercase">Empty Column</span>
+                    <div className="h-32 border border-dashed border-slate-100 rounded-xl flex flex-col items-center justify-center text-center p-4">
+                      <span className="text-[10px] font-semibold text-slate-400 block uppercase font-syne">No active collaborations</span>
                     </div>
                   ) : (
                     colContacts.map((contact) => {
@@ -262,17 +313,24 @@ export default function CRMPage() {
                             )}
 
                             {/* Promoting Actions */}
-                            {nextStage && (
-                              <div className="pt-2 border-t border-slate-100 flex justify-end">
+                            <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
+                              <button
+                                onClick={() => handleTriggerFollowup(contact.id)}
+                                className="text-[10px] font-bold text-violet-600 hover:text-violet-500 flex items-center gap-1 cursor-pointer font-syne"
+                              >
+                                <Sparkles className="h-3 w-3 text-violet-500" />
+                                AI Follow-Up
+                              </button>
+                              {nextStage && (
                                 <button
                                   onClick={() => handleUpdateStatus(contact.id, nextStage)}
-                                  className="text-xs font-bold text-indigo-600 hover:text-indigo-500 flex items-center gap-1 cursor-pointer font-syne"
+                                  className="text-[10px] font-bold text-indigo-600 hover:text-indigo-500 flex items-center gap-1 cursor-pointer font-syne"
                                 >
                                   Advance Stage
                                   <ArrowRight className="h-3.5 w-3.5" />
                                 </button>
-                              </div>
-                            )}
+                              )}
+                            </div>
                           </CardContent>
                         </Card>
                       );
@@ -289,8 +347,8 @@ export default function CRMPage() {
       <Dialog
         isOpen={isAddOpen}
         onClose={() => setIsAddOpen(false)}
-        title="Register Sponsorship Lead 📥"
-        description="Add a new brand collaborator or active contact to your pipeline."
+        title="Register Brand Opportunity 📥"
+        description="Add a new brand collaborator or active contact to your opportunities."
       >
         <form onSubmit={handleAddContact} className="space-y-4 text-slate-800 py-2">
           {/* Brand/Contact Name */}
@@ -342,7 +400,7 @@ export default function CRMPage() {
           {/* Stage selector */}
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
-              Pipeline Stage
+              Opportunity Stage
             </label>
             <select
               value={status}
@@ -350,7 +408,7 @@ export default function CRMPage() {
               disabled={formLoading}
               className="w-full text-sm rounded-lg p-2.5 bg-white border border-slate-300 focus:border-indigo-500 focus:ring focus:ring-indigo-100 font-sans"
             >
-              <option value="NEW">📥 New Lead</option>
+              <option value="NEW">📥 New Opportunity</option>
               <option value="INTERESTED">⭐️ Interested</option>
               <option value="NEGOTIATING">💬 Negotiating</option>
               <option value="CLOSED">🎉 Deal Closed</option>
@@ -377,9 +435,9 @@ export default function CRMPage() {
             <Button
               type="submit"
               isLoading={formLoading}
-              className="w-full sm:flex-1 py-3 text-xs sm:text-sm font-bold font-syne"
+              className="w-full sm:flex-1 py-3 text-xs sm:text-sm font-bold font-syne bg-gradient-to-r from-[#A78BFA] to-[#F9A8D4] border-0 text-white"
             >
-              Register Sponsorship
+              Save Opportunity
             </Button>
             <Button
               type="button"
@@ -391,6 +449,71 @@ export default function CRMPage() {
             </Button>
           </div>
         </form>
+      </Dialog>
+
+      {/* AI Follow-up Dialog Modal */}
+      <Dialog
+        isOpen={isFollowupOpen}
+        onClose={() => setIsFollowupOpen(false)}
+        title="AI Collaboration Follow-Up Pitch ✨"
+        description="Gemini has synthesized your notes to draft a friendly follow-up."
+      >
+        <div className="space-y-4 text-slate-800 py-2">
+          {followupLoading && (
+            <div className="py-12 flex flex-col items-center justify-center text-center">
+              <div className="h-9 w-9 rounded-full border-4 border-slate-200 border-t-indigo-500 animate-spin mb-4" />
+              <span className="text-xs text-slate-500 font-semibold">Analyzing deal history and drafting pitch...</span>
+            </div>
+          )}
+
+          {!followupLoading && followupResult && (
+            <div className="space-y-4">
+              {/* Delay suggestion badge */}
+              <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-3.5 text-xs text-indigo-700 space-y-1">
+                <span className="font-bold uppercase tracking-wider text-[10px] block">
+                  📆 Suggested Timing Delay
+                </span>
+                <p className="font-semibold text-slate-800">
+                  Send in {followupResult.suggestedDelayDays} days
+                </p>
+                <p className="text-slate-500 leading-relaxed mt-0.5 font-sans">
+                  {followupResult.rationale}
+                </p>
+              </div>
+
+              {/* Message text block */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
+                  Draft pitch body
+                </label>
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs leading-relaxed text-slate-700 whitespace-pre-wrap select-text max-h-[220px] overflow-y-auto font-mono">
+                  {followupResult.followupMessage}
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+                <Button
+                  onClick={() => {
+                    navigator.clipboard.writeText(followupResult.followupMessage);
+                    toast.success("Follow-up pitch copied to clipboard!");
+                  }}
+                  className="w-full sm:flex-1 py-3 text-xs sm:text-sm font-bold font-syne cursor-pointer"
+                >
+                  Copy Pitch Body
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => setIsFollowupOpen(false)}
+                  className="w-full sm:w-auto text-xs cursor-pointer"
+                >
+                  Close
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
       </Dialog>
     </div>
   );

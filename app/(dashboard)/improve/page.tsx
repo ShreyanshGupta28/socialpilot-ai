@@ -5,7 +5,6 @@ import { ImproveInput } from "@/components/improve/ImproveInput";
 import { ImproveResult } from "@/components/improve/ImproveResult";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
-import { UpgradeModal } from "@/components/shared/UpgradeModal";
 import { toast } from "sonner";
 import { PenTool, Sparkles, HelpCircle, CheckCircle, AlertCircle } from "lucide-react";
 
@@ -15,7 +14,7 @@ export default function ImprovePage() {
   const [loading, setLoading] = React.useState(false);
   const [result, setResult] = React.useState<any>(null);
   const [errorDetails, setErrorDetails] = React.useState<string | null>(null);
-  const [isUpgradeOpen, setIsUpgradeOpen] = React.useState(false);
+
 
   // Keyboard shortcut listener for Cmd+Enter or Ctrl+Enter
   React.useEffect(() => {
@@ -52,12 +51,7 @@ export default function ImprovePage() {
       const data = await response.json();
 
       if (!response.ok) {
-        if (response.status === 402 && data.error === "LIMIT_EXCEEDED") {
-          toast.warning("Daily generation limit exceeded! Upgrade to unlock Premium.");
-          setIsUpgradeOpen(true);
-          return;
-        }
-        throw new Error(data.details || data.error || "Failed to refine draft");
+        throw new Error(data.details || data.error || "Failed to improve message");
       }
 
       setResult(data);
@@ -170,22 +164,22 @@ export default function ImprovePage() {
             <Card className="bg-rose-500/5 border border-rose-500/20 p-6 space-y-4 shadow-lg text-left animate-fade-in">
               <div className="flex items-center gap-3 text-rose-400 border-b border-rose-500/10 pb-3">
                 <AlertCircle className="h-6 w-6" />
-                <h4 className="font-syne font-bold text-base text-white">
-                  Gemini API Generation Error
+                <h4 className="font-syne font-bold text-base text-slate-800">
+                  AI Assistant Service Notice
                 </h4>
               </div>
-              <p className="text-xs text-muted leading-relaxed">
-                The AI model encountered an issue during processing:
+              <p className="text-xs text-slate-500 leading-relaxed">
+                The AI assistant service encountered an issue during processing:
               </p>
-              <div className="bg-black/20 border border-white/5 rounded-xl p-3.5 text-xs font-mono text-rose-300 break-words leading-relaxed select-text">
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs font-mono text-rose-600 break-words leading-relaxed select-text">
                 {errorDetails}
               </div>
-              <div className="text-xs text-muted space-y-1.5 pt-1">
-                <p className="font-semibold text-[#F0F4FF]">Troubleshooting Checklist:</p>
+              <div className="text-xs text-slate-500 space-y-1.5 pt-1">
+                <p className="font-semibold text-[#334155]">Troubleshooting Checklist:</p>
                 <ul className="list-disc list-inside space-y-1">
-                  <li>Ensure your GEMINI_API_KEY is pasted in .env</li>
-                  <li>Check if the Gemini API model (gemini-2.5-flash) is active</li>
-                  <li>Verify internet connectivity and Google AI Studio availability</li>
+                  <li>Ensure your assistant service credentials are configured in .env</li>
+                  <li>Check if the AI assistant models are active</li>
+                  <li>Verify internet connectivity and AI studio availability</li>
                 </ul>
               </div>
               <Button
@@ -226,8 +220,6 @@ export default function ImprovePage() {
         </div>
       </div>
 
-      {/* Upgrade pricing check popup */}
-      <UpgradeModal isOpen={isUpgradeOpen} onClose={() => setIsUpgradeOpen(false)} />
     </div>
   );
 }

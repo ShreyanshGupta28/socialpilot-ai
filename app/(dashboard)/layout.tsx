@@ -6,7 +6,6 @@ import { redirect } from "next/navigation";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Topbar } from "@/components/layout/Topbar";
 import { MobileNav } from "@/components/layout/MobileNav";
-import { UpgradeBanner } from "@/components/layout/UpgradeBanner";
 
 export default async function DashboardLayout({
   children,
@@ -35,7 +34,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0F1E] text-[#F0F4FF] font-sans">
+    <div className="min-h-screen bg-[#FFFDF8] text-[#334155] font-sans">
       {/* Sidebar for Desktop */}
       <Sidebar user={{ name: user.name, email: user.email, plan: user.plan }} />
 
@@ -45,9 +44,6 @@ export default async function DashboardLayout({
       {/* Main Content Area */}
       <div className="lg:pl-64 min-h-screen flex flex-col pt-16 pb-16 lg:pb-0">
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
-          {/* Proactive Upgrade Banner */}
-          <UpgradeBanner plan={user.plan} />
-
           {/* Children View Workspace */}
           {children}
         </main>

@@ -325,7 +325,7 @@ export default function SettingsPage() {
               <ShieldAlert className="h-4.5 w-4.5" /> Danger Zone
             </h4>
             <p className="text-xs sm:text-sm text-muted max-w-xl leading-relaxed">
-              Permanently close and delete your SocialPilot account. This action removes your profile, generated histories, and billing subscription links immediately. It cannot be undone.
+              Permanently close and delete your SocialPilot account. This action removes your profile and all generated message histories immediately. It cannot be undone.
             </p>
           </div>
           <div>
@@ -349,7 +349,7 @@ export default function SettingsPage() {
       >
         <div className="space-y-5 py-2 text-[#F0F4FF]">
           <div className="bg-red-600/10 border border-red-500/20 text-red-400 text-xs sm:text-sm rounded-xl p-3 leading-relaxed">
-            All template logs, customer sentiment charts, and payment methods will be cleared instantly from our servers.
+            All templates, CRM contacts, and message logs will be cleared instantly from our servers.
           </div>
 
           <div className="space-y-2">

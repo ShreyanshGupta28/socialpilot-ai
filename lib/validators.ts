@@ -55,8 +55,4 @@ export const changePasswordSchema = z.object({
 });
 export type ChangePasswordInput = z.infer<typeof changePasswordSchema>;
 
-// Billing
-export const checkoutSchema = z.object({
-  priceId: z.string().min(1, "Price ID is required"),
-});
-export type CheckoutInput = z.infer<typeof checkoutSchema>;
+
